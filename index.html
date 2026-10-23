@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Good Store | متجر الأجهزة الذكية</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Cairo Font & FontAwesome Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        darkbg: '#080d1a',
+                        cardbg: '#0f172a',
+                        cardborder: '#1e293b',
+                        cyanbrand: '#06b6d4',
+                        emeraldbrand: '#10b981'
+                    },
+                    fontFamily: {
+                        cairo: ['Cairo', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: #080d1a;
+            color: #f1f5f9;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .glass-card {
+            background: linear-gradient(145deg, rgba(17, 24, 39, 0.95), rgba(15, 23, 42, 0.9));
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(12px);
+        }
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col selection:bg-cyanbrand selection:text-white pb-16">
+
+    <!-- Toast Notifications Container -->
+    <div id="toast-box" class="fixed top-4 left-4 right-4 sm:right-auto sm:w-96 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+    <!-- Header Navigation -->
+    <header class="sticky top-0 z-40 bg-[#080d1ae6] backdrop-blur-md border-b border-cardborder px-4 py-3">
+        <div class="max-w-7xl mx-auto flex items-center justify-between gap-3">
+            <!-- Brand -->
+            <div class="flex items-center gap-2.5 cursor-pointer" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-600 to-sky-400 flex items-center justify-center text-white shadow-lg shadow-cyan-500/20">
+                    <i class="fa-solid fa-mobile-screen-button text-lg"></i>
+                </div>
+                <div>
+                    <span class="text-xl font-black tracking-tight text-white flex items-center gap-1">
+                        Good<span class="text-cyan-400">Store</span>
+                    </span>
+                    <p class="text-[10px] text-gray-400 font-medium leading-none">أحدث الأجهزة الذكية</p>
+                </div>
+            </div>
+
+            <!-- Header Controls -->
+            <div class="flex items-center gap-2">
+                <!-- Sync / Refresh Button -->
+                <button onclick="fetchGoogleSheetData(true)" id="refresh-data-btn" title="تحديث القائمة" class="w-10 h-10 rounded-xl bg-cardbg border border-cardborder text-gray-300 hover:text-white flex items-center justify-center transition-all active:scale-95">
+                    <i class="fa-solid fa-rotate text-sm"></i>
+                </button>
+
+                <!-- Settings / Config -->
+                <button onclick="toggleConfigModal(true)" title="إعدادات الربط" class="w-10 h-10 rounded-xl bg-cardbg border border-cardborder text-gray-300 hover:text-white flex items-center justify-center transition-all active:scale-95">
+                    <i class="fa-solid fa-gear text-sm"></i>
+                </button>
+
+                <!-- Cart Button -->
+                <button onclick="toggleCartDrawer(true)" class="h-10 px-3.5 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white font-bold flex items-center gap-2 shadow-lg shadow-cyan-600/20 transition-all active:scale-95 text-xs">
+                    <i class="fa-solid fa-bag-shopping text-sm"></i>
+                    <span class="hidden sm:inline">السلة</span>
+                    <span id="cart-counter" class="w-5 h-5 rounded-full bg-amber-400 text-gray-900 font-black text-[11px] flex items-center justify-center">0</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Store Container -->
+    <main class="flex-grow max-w-7xl mx-auto px-4 w-full pt-4">
+
+        <!-- Hero Notification Banner -->
+        <div class="relative rounded-2xl overflow-hidden glass-card p-5 sm:p-7 mb-6 border border-cardborder">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-950/80 border border-cyan-800/60 text-cyan-400 text-xs font-bold mb-3">
+                <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+                تحديث لحظي لأسعار الأجهزة والهواتف
+            </div>
+            <h1 class="text-2xl sm:text-4xl font-black text-white leading-tight mb-2">
+                أحدث الهواتف الذكية مع <span class="text-cyan-400">ضمان وأفضل الأسعار</span>
+            </h1>
+            <p class="text-gray-300 text-xs sm:text-sm max-w-2xl leading-relaxed mb-4">
+                استكشف قائمة الهواتف الذكية المحدثة يومياً مع الصور الرسمية، المواصفات الدقيقة، والطلب الفوري المباشر عبر تطبيق واتساب بخطوة واحدة.
+            </p>
+            <div class="flex flex-wrap gap-4 text-[11px] sm:text-xs text-gray-400">
+                <span class="flex items-center gap-1.5"><i class="fa-solid fa-bolt text-amber-400"></i> أسعار يومية منافسة</span>
+                <span class="flex items-center gap-1.5"><i class="fa-solid fa-shield-halved text-emerald-400"></i> أجهزة أصلية معتمدة</span>
+                <span class="flex items-center gap-1.5"><i class="fa-brands fa-whatsapp text-green-400"></i> طلب مباشر</span>
+            </div>
+        </div>
+
+        <!-- Filter & Search Bar -->
+        <div class="space-y-3 mb-6">
+            <!-- Search Input -->
+            <div class="relative">
+                <i class="fa-solid fa-magnifying-glass absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
+                <input type="text" id="search-input" oninput="applyFilters()" placeholder="ابحث باسم الجهاز (مثال: Galaxy S24, Honor, iPhone...)" class="w-full pr-10 pl-4 py-3 rounded-xl bg-cardbg border border-cardborder text-white text-xs sm:text-sm placeholder-gray-500 focus:outline-none focus:border-cyan-500 transition-all">
+            </div>
+
+            <!-- Brands Filter Tabs -->
+            <div class="flex items-center gap-1.5 overflow-x-auto pb-1 hide-scrollbar text-xs font-bold" id="brand-buttons-row">
+                <button onclick="setBrandFilter('all')" class="brand-btn px-4 py-2 rounded-xl bg-cyan-500 text-white whitespace-nowrap transition-all shadow-md shadow-cyan-500/20" data-brand="all">الكل</button>
+                <button onclick="setBrandFilter('honor')" class="brand-btn px-4 py-2 rounded-xl bg-cardbg text-gray-400 border border-cardborder hover:text-white whitespace-nowrap transition-all" data-brand="honor">Honor</button>
+                <button onclick="setBrandFilter('samsung')" class="brand-btn px-4 py-2 rounded-xl bg-cardbg text-gray-400 border border-cardborder hover:text-white whitespace-nowrap transition-all" data-brand="samsung">Samsung</button>
+                <button onclick="setBrandFilter('apple')" class="brand-btn px-4 py-2 rounded-xl bg-cardbg text-gray-400 border border-cardborder hover:text-white whitespace-nowrap transition-all" data-brand="apple">Apple</button>
+                <button onclick="setBrandFilter('xiaomi')" class="brand-btn px-4 py-2 rounded-xl bg-cardbg text-gray-400 border border-cardborder hover:text-white whitespace-nowrap transition-all" data-brand="xiaomi">Xiaomi</button>
+                <button onclick="setBrandFilter('nokia')" class="brand-btn px-4 py-2 rounded-xl bg-cardbg text-gray-400 border border-cardborder hover:text-white whitespace-nowrap transition-all" data-brand="nokia">Nokia</button>
+                <button onclick="setBrandFilter('other')" class="brand-btn px-4 py-2 rounded-xl bg-cardbg text-gray-400 border border-cardborder hover:text-white whitespace-nowrap transition-all" data-brand="other">أخرى</button>
+            </div>
+
+            <!-- Sorting & Counter Row -->
+            <div class="flex items-center justify-between text-xs text-gray-400 pt-1">
+                <div>
+                    المعروض: <span id="items-count-badge" class="text-white font-bold">0</span> أجهزة
+                    <span id="sync-status-indicator" class="mr-2 text-[11px] text-cyan-400"></span>
+                </div>
+                <div class="relative">
+                    <select id="sort-select" onchange="applyFilters()" class="bg-cardbg border border-cardborder rounded-lg px-2.5 py-1.5 text-xs text-gray-300 focus:outline-none focus:border-cyan-500 cursor-pointer">
+                        <option value="default">الترتيب: الافتراضي</option>
+                        <option value="price-asc">السعر: من الأقل للأعلى</option>
+                        <option value="price-desc">السعر: من الأعلى للأقل</option>
+                        <option value="name">الاسم: أبجدياً</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!-- Products Cards Grid -->
+        <div id="products-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
+            <!-- Rendered Dynamically -->
+        </div>
+
+        <!-- Fallback Empty State -->
+        <div id="no-results-box" class="hidden flex-col items-center justify-center p-12 text-center rounded-2xl glass-card border border-cardborder mt-4">
+            <i class="fa-solid fa-mobile-screen-button text-4xl text-gray-600 mb-3"></i>
+            <h3 class="text-base font-bold text-white mb-1">لا توجد أجهزة مطابقة للبحث</h3>
+            <p class="text-xs text-gray-400 mb-4">جرّب تغيير خيارات البحث أو الفلترة أو إعادة تحميل القائمة</p>
+            <button onclick="resetFilters()" class="px-4 py-2 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white font-bold text-xs">إعادة ضبط البحث</button>
+        </div>
+    </main>
+
+    <!-- ================= Quick Details Modal ================= -->
+    <div id="quick-view-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
+        <div class="relative w-full max-w-lg bg-cardbg border border-cardborder rounded-2xl overflow-hidden shadow-2xl flex flex-col max-h-[90vh]">
+            <button onclick="closeQuickView()" class="absolute top-3 left-3 z-10 w-8 h-8 rounded-full bg-gray-900/80 text-gray-300 hover:text-white flex items-center justify-center">
+                <i class="fa-solid fa-xmark text-sm"></i>
+            </button>
+            <div class="p-6 bg-[#0a0f1d] flex items-center justify-center border-b border-cardborder">
+                <img id="modal-img" src="" alt="Device" class="max-h-56 object-contain drop-shadow-xl">
+            </div>
+            <div class="p-5 flex-grow overflow-y-auto space-y-4">
+                <div>
+                    <span id="modal-brand" class="text-[10px] font-black uppercase text-cyan-400 tracking-wider">BRAND</span>
+                    <h2 id="modal-title" class="text-xl font-black text-white mt-1 leading-snug">اسم الهاتف</h2>
+                    <div class="text-xl font-black text-cyan-400 mt-2 flex items-baseline gap-1">
+                        <span id="modal-price">0</span> <span class="text-xs text-gray-400 font-semibold">ج.س</span>
+                    </div>
+                </div>
+                <div class="bg-gray-900/60 p-3.5 rounded-xl border border-cardborder">
+                    <div class="text-xs font-bold text-gray-300 mb-1 flex items-center gap-1.5">
+                        <i class="fa-solid fa-microchip text-cyan-400"></i> المواصفات والملاحظات:
+                    </div>
+                    <p id="modal-notes" class="text-xs text-gray-300 leading-relaxed whitespace-pre-line"></p>
+                </div>
+                <div class="text-[11px] text-gray-500 flex items-center gap-2">
+                    <i class="fa-regular fa-clock"></i>
+                    <span>تاريخ التحديث: <span id="modal-date" class="text-gray-400">--</span></span>
+                </div>
+            </div>
+            <div class="p-4 border-t border-cardborder flex gap-2 bg-[#0b101f]">
+                <button id="modal-order-wa" class="flex-1 py-3 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-lg shadow-cyan-600/20">
+                    <i class="fa-brands fa-whatsapp text-base"></i> اطلب الآن عبر واتساب
+                </button>
+                <button id="modal-add-cart" class="px-4 py-3 rounded-xl bg-cardbg hover:bg-gray-800 text-gray-200 border border-cardborder font-bold text-xs flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-cart-plus text-sm"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= Shopping Cart Drawer ================= -->
+    <div id="cart-drawer-overlay" onclick="toggleCartDrawer(false)" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden transition-opacity"></div>
+    <div id="cart-drawer" class="fixed top-0 left-0 bottom-0 z-50 w-full max-w-sm bg-cardbg border-r border-cardborder flex flex-col justify-between shadow-2xl transition-transform duration-300 -translate-x-full">
+        <div class="p-4 border-b border-cardborder flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <i class="fa-solid fa-bag-shopping text-cyan-400"></i>
+                <h3 class="text-sm font-bold text-white">سلة المشتريات</h3>
+                <span id="cart-header-count" class="px-2 py-0.5 rounded-full bg-gray-800 text-[11px] text-gray-300 font-bold">0</span>
+            </div>
+            <button onclick="toggleCartDrawer(false)" class="p-2 text-gray-400 hover:text-white">
+                <i class="fa-solid fa-xmark text-sm"></i>
+            </button>
+        </div>
+        <div id="cart-list" class="flex-grow overflow-y-auto p-3 space-y-2.5">
+            <!-- Items rendered via JS -->
+        </div>
+        <div class="p-4 border-t border-cardborder bg-[#080d1a]">
+            <div class="flex items-center justify-between mb-3 text-xs">
+                <span class="text-gray-400 font-medium">المجموع الكلي:</span>
+                <div class="text-base font-black text-cyan-400">
+                    <span id="cart-total-amount">0</span> <span class="text-xs text-gray-400 font-semibold">ج.س</span>
+                </div>
+            </div>
+            <button onclick="checkoutCartWhatsApp()" class="w-full py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-lg shadow-emerald-600/30 transition-all">
+                <i class="fa-brands fa-whatsapp text-lg"></i> إتمام الطلب عبر واتساب
+            </button>
+        </div>
+    </div>
+
+    <!-- ================= Settings Modal ================= -->
+    <div id="config-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
+        <div class="w-full max-w-md bg-cardbg border border-cardborder rounded-2xl p-5 shadow-2xl relative">
+            <button onclick="toggleConfigModal(false)" class="absolute top-4 left-4 text-gray-400 hover:text-white">
+                <i class="fa-solid fa-xmark text-base"></i>
+            </button>
+            <h3 class="text-base font-bold text-white mb-1 flex items-center gap-2">
+                <i class="fa-solid fa-gear text-cyan-400"></i> إعدادات جدول البيانات
+            </h3>
+            <p class="text-xs text-gray-400 mb-4">تم تعيين جدول Google Sheets الخاص بك تلقائياً ورقم واتساب الطلبات.</p>
+
+            <div class="space-y-3 mb-5 text-xs">
+                <div>
+                    <label class="block font-semibold text-gray-300 mb-1">رابط أو معرف Google Sheets:</label>
+                    <input type="text" id="cfg-sheet-url" class="w-full px-3 py-2.5 rounded-xl bg-gray-900 border border-cardborder text-white text-xs placeholder-gray-600 focus:outline-none focus:border-cyan-500">
+                </div>
+                <div>
+                    <label class="block font-semibold text-gray-300 mb-1">رقم واتساب المتجر (مع مفتاح الدولة):</label>
+                    <input type="text" id="cfg-wa-num" placeholder="249123456789" class="w-full px-3 py-2.5 rounded-xl bg-gray-900 border border-cardborder text-white text-xs placeholder-gray-600 focus:outline-none focus:border-cyan-500">
+                </div>
+            </div>
+
+            <div class="flex gap-2">
+                <button onclick="saveCustomConfig()" class="flex-1 py-2.5 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white font-bold text-xs transition-colors">
+                    حفظ وتحديث المتجر
+                </button>
+                <button onclick="resetDefaultConfig()" class="px-3 py-2.5 rounded-xl bg-gray-800 text-gray-300 hover:text-white text-xs font-semibold">
+                    الافتراضي
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Application Core Script -->
+    <script>
+        // Preset default spreadsheet ID & sheet from user's provided link
+        const DEFAULT_SHEET_ID = "1nMIJMA4YmQ-oi2UaUJBwloBjf14BwqroWxR8Fv-RiFY";
+        const DEFAULT_SHEET_NAME = "Sheet1";
+        const DEFAULT_WA = "249912345678";
+
+        // Store state
+        let allProducts = [];
+        let filteredProducts = [];
+        let cart = [];
+        let selectedBrand = 'all';
+        let currentModalItem = null;
+
+        // Current Config
+        let currentSheetUrl = localStorage.getItem('gs_sheet_input') || DEFAULT_SHEET_ID;
+        let storeWhatsApp = localStorage.getItem('gs_store_wa') || DEFAULT_WA;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Restore cart
+            try {
+                const saved = localStorage.getItem('gs_cart_state');
+                if (saved) cart = JSON.parse(saved);
+            } catch (e) { cart = []; }
+            updateCartBadges();
+
+            // Setup input defaults
+            document.getElementById('cfg-sheet-url').value = currentSheetUrl;
+            document.getElementById('cfg-wa-num').value = storeWhatsApp;
+
+            // Fetch live data
+            fetchGoogleSheetData(false);
+        });
+
+        // Brand categorization
+        function detectBrand(name) {
+            const n = (name || '').toLowerCase();
+            if (n.includes('honor')) return 'honor';
+            if (n.includes('samsung') || n.includes('galaxy')) return 'samsung';
+            if (n.includes('apple') || n.includes('iphone') || n.includes('ipad')) return 'apple';
+            if (n.includes('xiaomi') || n.includes('redmi') || n.includes('poco')) return 'xiaomi';
+            if (n.includes('nokia')) return 'nokia';
+            return 'other';
+        }
+
+        // Robust Fetcher with Google Viz API (CORS Bypass)
+        async function fetchGoogleSheetData(manual = false) {
+            const btn = document.getElementById('refresh-data-btn');
+            const statusIndicator = document.getElementById('sync-status-indicator');
+            btn.classList.add('animate-spin', 'text-cyan-400');
+            statusIndicator.textContent = 'جاري المزامنة...';
+
+            let sheetId = extractSheetId(currentSheetUrl) || DEFAULT_SHEET_ID;
+
+            // Strategy 1: Google Visualization API (JSONP / Gviz text - Bypass CORS)
+            const gvizUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(DEFAULT_SHEET_NAME)}`;
+            
+            // Strategy 2: Direct CSV export
+            const csvUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv&sheet=${encodeURIComponent(DEFAULT_SHEET_NAME)}`;
+
+            let fetched = false;
+
+            try {
+                // Attempt JSON GViz First
+                const res = await fetch(gvizUrl);
+                if (res.ok) {
+                    const text = await res.text();
+                    // GViz wraps JSON in /*O_o*/ google.visualization.Query.setResponse({...});
+                    const jsonStart = text.indexOf('{');
+                    const jsonEnd = text.lastIndexOf('}');
+                    if (jsonStart !== -1 && jsonEnd !== -1) {
+                        const rawJson = text.substring(jsonStart, jsonEnd + 1);
+                        const data = JSON.parse(rawJson);
+                        const parsed = parseGvizJson(data);
+                        if (parsed.length > 0) {
+                            processNewProducts(parsed);
+                            fetched = true;
+                        }
+                    }
+                }
+            } catch (err) {
+                console.warn('Gviz fetch attempt failed, trying CSV fallback...', err);
+            }
+
+            // Fallback to CSV if GViz fails
+            if (!fetched) {
+                try {
+                    const csvRes = await fetch(csvUrl);
+                    if (csvRes.ok) {
+                        const csvText = await csvRes.text();
+                        const parsed = parseCSVText(csvText);
+                        if (parsed.length > 0) {
+                            processNewProducts(parsed);
+                            fetched = true;
+                        }
+                    }
+                } catch (err) {
+                    console.error('CSV fetch failed too', err);
+                }
+            }
+
+            btn.classList.remove('animate-spin', 'text-cyan-400');
+
+            if (fetched) {
+                statusIndicator.textContent = 'متصل بـ Google Sheets ✓';
+                if (manual) showToast('تم تحديث قائمة الهواتف من الشيت بنجاح', 'success');
+            } else {
+                statusIndicator.textContent = 'وضع البيانات المحفوظة';
+                // Load cached products or samples
+                const cached = localStorage.getItem('gs_cached_products');
+                if (cached) {
+                    try {
+                        allProducts = JSON.parse(cached);
+                        applyFilters();
+                    } catch(e) {}
+                }
+                if (manual) {
+                    showToast('تأكد من فتح مشاركة الشيت: (أي شخص لديه الرابط يمكنه العرض)', 'warning');
+                }
+            }
+        }
+
+        // Extract ID from full URL or return ID directly
+        function extractSheetId(input) {
+            if (!input) return DEFAULT_SHEET_ID;
+            const match = input.match(/\/d\/([a-zA-Z0-9-_]+)/);
+            return match ? match[1] : input.trim();
+        }
+
+        // Parse Google Viz DataTable Object
+        function parseGvizJson(json) {
+            if (!json || !json.table || !json.table.rows) return [];
+            const cols = (json.table.cols || []).map(c => (c.label || '').trim());
+            
+            // Map columns
+            const nameIdx = findColIndex(cols, ['device', 'name', 'جهاز', 'اسم']);
+            const priceIdx = findColIndex(cols, ['price', 'سعر']);
+            const notesIdx = findColIndex(cols, ['note', 'desc', 'ملاحظ', 'وصف']);
+            const dateIdx = findColIndex(cols, ['date', 'تاريخ']);
+            const imgIdx = findColIndex(cols, ['image', 'img', 'صورة', 'رابط']);
+
+            const list = [];
+            const rows = json.table.rows;
+
+            rows.forEach((r, idx) => {
+                const c = r.c;
+                if (!c) return;
+
+                const getVal = (i) => (c[i] && c[i].v !== null && c[i].v !== undefined) ? c[i].v : '';
+
+                const rawName = nameIdx !== -1 ? getVal(nameIdx) : getVal(0);
+                if (!rawName) return;
+
+                const rawPrice = priceIdx !== -1 ? getVal(priceIdx) : getVal(1);
+                const rawNotes = notesIdx !== -1 ? getVal(notesIdx) : getVal(2);
+                const rawDate = dateIdx !== -1 ? getVal(dateIdx) : getVal(3);
+                const rawImg = imgIdx !== -1 ? getVal(imgIdx) : getVal(4);
+
+                list.push({
+                    id: 'dev-' + idx,
+                    "Device Name": String(rawName).trim(),
+                    "Price": cleanNumericPrice(rawPrice),
+                    "Notes": String(rawNotes).trim(),
+                    "Date": String(rawDate).trim(),
+                    "Image": String(rawImg).trim()
+                });
+            });
+
+            return list;
+        }
+
+        // Parse Standard CSV
+        function parseCSVText(csv) {
+            const lines = csv.split(/\r?\n/).filter(l => l.trim() !== '');
+            if (lines.length < 2) return [];
+
+            const parseRow = (line) => {
+                const res = [];
+                let entry = '';
+                let insideQuotes = false;
+                for (let i = 0; i < line.length; i++) {
+                    const ch = line[i];
+                    if (ch === '"') insideQuotes = !insideQuotes;
+                    else if (ch === ',' && !insideQuotes) {
+                        res.push(entry.trim());
+                        entry = '';
+                    } else entry += ch;
+                }
+                res.push(entry.trim());
+                return res.map(s => s.replace(/^"|"$/g, '').trim());
+            };
+
+            const headers = parseRow(lines[0]);
+            const nameIdx = findColIndex(headers, ['device', 'name', 'جهاز', 'اسم']);
+            const priceIdx = findColIndex(headers, ['price', 'سعر']);
+            const notesIdx = findColIndex(headers, ['note', 'desc', 'ملاحظ', 'وصف']);
+            const dateIdx = findColIndex(headers, ['date', 'تاريخ']);
+            const imgIdx = findColIndex(headers, ['image', 'img', 'صورة', 'رابط']);
+
+            const list = [];
+            for (let i = 1; i < lines.length; i++) {
+                const row = parseRow(lines[i]);
+                if (!row || !row[0]) continue;
+
+                const devName = nameIdx !== -1 ? row[nameIdx] : row[0];
+                if (!devName) continue;
+
+                list.push({
+                    id: 'dev-csv-' + i,
+                    "Device Name": devName,
+                    "Price": cleanNumericPrice(priceIdx !== -1 ? row[priceIdx] : row[1]),
+                    "Notes": notesIdx !== -1 ? row[notesIdx] : (row[2] || ''),
+                    "Date": dateIdx !== -1 ? row[dateIdx] : (row[3] || ''),
+                    "Image": imgIdx !== -1 ? row[imgIdx] : (row[4] || '')
+                });
+            }
+            return list;
+        }
+
+        function findColIndex(array, keywords) {
+            for (let i = 0; i < array.length; i++) {
+                const text = (array[i] || '').toLowerCase();
+                for (let kw of keywords) {
+                    if (text.includes(kw)) return i;
+                }
+            }
+            return -1;
+        }
+
+        function cleanNumericPrice(val) {
+            if (typeof val === 'number') return Math.round(val);
+            const digits = String(val || '').replace(/[^0-9.]/g, '');
+            const parsed = parseFloat(digits);
+            return isNaN(parsed) ? 0 : Math.round(parsed);
+        }
+
+        // Deduplication & Order logic
+        function processNewProducts(items) {
+            // Deduplicate: Keep the latest record for each device name
+            const map = new Map();
+            items.forEach(item => {
+                const key = item["Device Name"].trim().toLowerCase();
+                map.set(key, item);
+            });
+
+            // Convert to array and reverse to display newest first
+            allProducts = Array.from(map.values()).reverse();
+            localStorage.setItem('gs_cached_products', JSON.stringify(allProducts));
+            applyFilters();
+        }
+
+        // Render UI
+        function renderGrid(devices) {
+            const grid = document.getElementById('products-grid');
+            const emptyBox = document.getElementById('no-results-box');
+            document.getElementById('items-count-badge').textContent = devices.length;
+
+            if (devices.length === 0) {
+                grid.innerHTML = '';
+                emptyBox.classList.remove('hidden');
+                emptyBox.classList.add('flex');
+                return;
+            }
+
+            emptyBox.classList.add('hidden');
+            emptyBox.classList.remove('flex');
+
+            grid.innerHTML = devices.map((d, index) => {
+                const brand = detectBrand(d["Device Name"]);
+                const imageSrc = (d.Image && d.Image.startsWith('http')) 
+                    ? d.Image 
+                    : `https://placehold.co/500x500/0f172a/38bdf8?text=${encodeURIComponent(d["Device Name"])}`;
+                
+                const formattedPrice = (d.Price || 0).toLocaleString('en-US');
+
+                return `
+                    <div class="glass-card rounded-2xl overflow-hidden border border-cardborder flex flex-col justify-between hover:border-cyan-500/50 transition-all duration-300">
+                        <!-- Top Image Box with Badge -->
+                        <div class="relative bg-[#070b14] h-44 sm:h-52 p-3 flex items-center justify-center cursor-pointer group" onclick="openQuickView('${d.id || index}')">
+                            <span class="absolute top-2.5 right-2.5 px-2 py-0.5 rounded-md bg-cyan-950/90 border border-cyan-800 text-[10px] font-black text-cyan-400">
+                                جديد
+                            </span>
+                            <img src="${imageSrc}" alt="${d["Device Name"]}" 
+                                 class="max-h-full max-w-full object-contain group-hover:scale-105 transition-transform duration-300"
+                                 loading="lazy"
+                                 onerror="this.onerror=null; this.src='https://placehold.co/500x500/0f172a/38bdf8?text=Phone';">
+                            
+                            <!-- Overlay Price Badge (Style like user's screenshot) -->
+                            <div class="absolute bottom-2.5 px-3 py-1 rounded-xl bg-[#032b36e8] border border-cyan-600/40 text-cyan-300 font-extrabold text-xs shadow-md">
+                                ${formattedPrice} ج.س
+                            </div>
+                        </div>
+
+                        <!-- Card Body -->
+                        <div class="p-3 sm:p-4 flex-grow flex flex-col justify-between">
+                            <div>
+                                <h3 class="text-xs sm:text-sm font-bold text-white text-center line-clamp-1 mb-1" title="${d["Device Name"]}">
+                                    ${d["Device Name"]}
+                                </h3>
+                                <p class="text-[11px] text-gray-400 text-center line-clamp-2 min-h-[32px] leading-relaxed mb-3">
+                                    ${d.Notes || 'هاتف ذكي ممتاز بأعلى المواصفات والضمان.'}
+                                </p>
+                            </div>
+
+                            <!-- Buttons -->
+                            <div class="space-y-1.5 pt-1">
+                                <button onclick="orderViaWhatsAppDirect('${d.id || index}')" class="w-full py-2.5 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white font-bold text-xs flex items-center justify-center gap-1.5 transition-all shadow-md shadow-cyan-600/20 active:scale-95">
+                                    <i class="fa-brands fa-whatsapp text-sm"></i>
+                                    اطلب الآن عبر واتساب
+                                </button>
+                                <button onclick="addToCart('${d.id || index}')" class="w-full py-2 rounded-xl bg-gray-900 hover:bg-gray-800 text-gray-300 border border-cardborder text-[11px] font-semibold flex items-center justify-center gap-1.5 transition-all active:scale-95">
+                                    <i class="fa-solid fa-cart-plus text-xs"></i>
+                                    أضف للسلة
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Filtering and Search
+        function applyFilters() {
+            const query = (document.getElementById('search-input').value || '').trim().toLowerCase();
+            const sortMode = document.getElementById('sort-select').value;
+
+            let result = allProducts.filter(item => {
+                const name = (item["Device Name"] || '').toLowerCase();
+                const notes = (item.Notes || '').toLowerCase();
+                const matchesText = name.includes(query) || notes.includes(query);
+
+                const brand = detectBrand(item["Device Name"]);
+                const matchesBrand = (selectedBrand === 'all') || (brand === selectedBrand);
+
+                return matchesText && matchesBrand;
+            });
+
+            if (sortMode === 'price-asc') {
+                result.sort((a, b) => a.Price - b.Price);
+            } else if (sortMode === 'price-desc') {
+                result.sort((a, b) => b.Price - a.Price);
+            } else if (sortMode === 'name') {
+                result.sort((a, b) => a["Device Name"].localeCompare(b["Device Name"]));
+            }
+
+            filteredProducts = result;
+            renderGrid(filteredProducts);
+        }
+
+        function setBrandFilter(brand) {
+            selectedBrand = brand;
+            document.querySelectorAll('.brand-btn').forEach(btn => {
+                if (btn.getAttribute('data-brand') === brand) {
+                    btn.classList.remove('bg-cardbg', 'text-gray-400', 'border', 'border-cardborder');
+                    btn.classList.add('bg-cyan-500', 'text-white', 'shadow-md', 'shadow-cyan-500/20');
+                } else {
+                    btn.classList.add('bg-cardbg', 'text-gray-400', 'border', 'border-cardborder');
+                    btn.classList.remove('bg-cyan-500', 'text-white', 'shadow-md', 'shadow-cyan-500/20');
+                }
+            });
+            applyFilters();
+        }
+
+        function resetFilters() {
+            document.getElementById('search-input').value = '';
+            document.getElementById('sort-select').value = 'default';
+            setBrandFilter('all');
+        }
+
+        // Quick View Modal
+        function openQuickView(idOrIndex) {
+            const item = allProducts.find((p, idx) => p.id === idOrIndex || idx == idOrIndex);
+            if (!item) return;
+
+            currentModalItem = item;
+            document.getElementById('modal-title').textContent = item["Device Name"];
+            document.getElementById('modal-brand').textContent = detectBrand(item["Device Name"]);
+            document.getElementById('modal-price').textContent = (item.Price || 0).toLocaleString('en-US');
+            document.getElementById('modal-notes').textContent = item.Notes || 'أصلي ومضمون';
+            document.getElementById('modal-date').textContent = item.Date || 'الآن';
+
+            const img = document.getElementById('modal-img');
+            img.src = (item.Image && item.Image.startsWith('http')) 
+                ? item.Image 
+                : `https://placehold.co/600x600/0f172a/38bdf8?text=${encodeURIComponent(item["Device Name"])}`;
+
+            document.getElementById('modal-order-wa').onclick = () => orderViaWhatsAppDirect(item.id);
+            document.getElementById('modal-add-cart').onclick = () => {
+                addToCart(item.id);
+                closeQuickView();
+            };
+
+            const modal = document.getElementById('quick-view-modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeQuickView() {
+            const modal = document.getElementById('quick-view-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            currentModalItem = null;
+        }
+
+        // Cart Drawer Operations
+        function toggleCartDrawer(open) {
+            const drawer = document.getElementById('cart-drawer');
+            const overlay = document.getElementById('cart-drawer-overlay');
+            if (open) {
+                renderCartList();
+                drawer.classList.remove('-translate-x-full');
+                overlay.classList.remove('hidden');
+            } else {
+                drawer.classList.add('-translate-x-full');
+                overlay.classList.add('hidden');
+            }
+        }
+
+        function addToCart(idOrIndex) {
+            const item = allProducts.find((p, idx) => p.id === idOrIndex || idx == idOrIndex);
+            if (!item) return;
+
+            const existing = cart.find(c => c["Device Name"] === item["Device Name"]);
+            if (existing) {
+                existing.qty += 1;
+            } else {
+                cart.push({
+                    "Device Name": item["Device Name"],
+                    Price: item.Price || 0,
+                    Image: item.Image,
+                    qty: 1
+                });
+            }
+
+            saveCart();
+            updateCartBadges();
+            showToast(`تمت إضافة ${item["Device Name"]} للسلة`, 'success');
+        }
+
+        function changeCartQty(idx, change) {
+            if (cart[idx]) {
+                cart[idx].qty += change;
+                if (cart[idx].qty <= 0) cart.splice(idx, 1);
+                saveCart();
+                updateCartBadges();
+                renderCartList();
+            }
+        }
+
+        function removeCartItem(idx) {
+            if (cart[idx]) {
+                cart.splice(idx, 1);
+                saveCart();
+                updateCartBadges();
+                renderCartList();
+            }
+        }
+
+        function saveCart() {
+            localStorage.setItem('gs_cart_state', JSON.stringify(cart));
+        }
+
+        function updateCartBadges() {
+            const count = cart.reduce((sum, item) => sum + item.qty, 0);
+            document.getElementById('cart-counter').textContent = count;
+            document.getElementById('cart-header-count').textContent = count;
+        }
+
+        function renderCartList() {
+            const container = document.getElementById('cart-list');
+            const totalEl = document.getElementById('cart-total-amount');
+
+            const total = cart.reduce((sum, item) => sum + (item.Price * item.qty), 0);
+            totalEl.textContent = total.toLocaleString('en-US');
+
+            if (cart.length === 0) {
+                container.innerHTML = `
+                    <div class="h-64 flex flex-col items-center justify-center text-center text-gray-500">
+                        <i class="fa-solid fa-bag-shopping text-3xl mb-2 text-gray-700"></i>
+                        <p class="text-xs font-semibold">سلة الطلبات فارغة</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = cart.map((item, idx) => `
+                <div class="flex items-center gap-2.5 p-2.5 bg-[#090e1c] rounded-xl border border-cardborder">
+                    <img src="${item.Image || 'https://placehold.co/100x100/0f172a/38bdf8?text=Phone'}" class="w-12 h-12 object-contain rounded-lg bg-gray-900 p-1">
+                    <div class="flex-grow">
+                        <h4 class="text-xs font-bold text-white line-clamp-1">${item["Device Name"]}</h4>
+                        <div class="text-xs font-bold text-cyan-400 mt-0.5">${(item.Price * item.qty).toLocaleString('en-US')} ج.س</div>
+                        <div class="flex items-center gap-2 mt-1.5">
+                            <button onclick="changeCartQty(${idx}, -1)" class="w-5 h-5 rounded bg-gray-800 text-gray-300 flex items-center justify-center text-xs">-</button>
+                            <span class="text-xs font-bold text-white">${item.qty}</span>
+                            <button onclick="changeCartQty(${idx}, 1)" class="w-5 h-5 rounded bg-gray-800 text-gray-300 flex items-center justify-center text-xs">+</button>
+                        </div>
+                    </div>
+                    <button onclick="removeCartItem(${idx})" class="text-gray-500 hover:text-rose-400 p-1 text-xs">
+                        <i class="fa-solid fa-trash-can"></i>
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        // WhatsApp Direct Actions
+        function orderViaWhatsAppDirect(idOrIndex) {
+            const item = allProducts.find((p, idx) => p.id === idOrIndex || idx == idOrIndex);
+            if (!item) return;
+
+            const phone = storeWhatsApp.replace(/[^0-9]/g, '');
+            const msg = `السلام عليكم متجر Good Store 📱\nأرغب في الاستفسار والطلب لجهاز:\n\n*اسم الجهاز:* ${item["Device Name"]}\n*السعر:* ${(item.Price || 0).toLocaleString('en-US')} ج.س\n*المواصفات:* ${item.Notes || 'أصلي'}\n\nيرجى تأكيد التوفر وطريقة الاستلام والتوصيل. شكراً لك!`;
+            
+            window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, '_blank');
+        }
+
+        function checkoutCartWhatsApp() {
+            if (cart.length === 0) {
+                showToast('السلة فارغة!', 'warning');
+                return;
+            }
+
+            const phone = storeWhatsApp.replace(/[^0-9]/g, '');
+            const total = cart.reduce((sum, item) => sum + (item.Price * item.qty), 0);
+            const lines = cart.map((item, idx) => `${idx + 1}. *${item["Device Name"]}* (الكمية: ${item.qty}) - الإجمالي: ${(item.Price * item.qty).toLocaleString('en-US')} ج.س`).join('\n');
+
+            const msg = `السلام عليكم متجر Good Store 🛒\nأود إتمام طلب شراء للأجهزة التالية:\n\n${lines}\n\n*المجموع الإجمالي:* ${total.toLocaleString('en-US')} ج.س\n\nيرجى تأكيد استلام الطلب وتحديد موعد التسليم.`;
+            
+            window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, '_blank');
+        }
+
+        // Settings Modal Handling
+        function toggleConfigModal(open) {
+            const m = document.getElementById('config-modal');
+            if (open) {
+                m.classList.remove('hidden');
+                m.classList.add('flex');
+            } else {
+                m.classList.add('hidden');
+                m.classList.remove('flex');
+            }
+        }
+
+        function saveCustomConfig() {
+            const urlInput = document.getElementById('cfg-sheet-url').value.trim();
+            const waInput = document.getElementById('cfg-wa-num').value.trim();
+
+            if (urlInput) {
+                currentSheetUrl = urlInput;
+                localStorage.setItem('gs_sheet_input', currentSheetUrl);
+            }
+            if (waInput) {
+                storeWhatsApp = waInput;
+                localStorage.setItem('gs_store_wa', storeWhatsApp);
+            }
+
+            toggleConfigModal(false);
+            fetchGoogleSheetData(true);
+        }
+
+        function resetDefaultConfig() {
+            currentSheetUrl = DEFAULT_SHEET_ID;
+            storeWhatsApp = DEFAULT_WA;
+            localStorage.removeItem('gs_sheet_input');
+            localStorage.removeItem('gs_store_wa');
+            document.getElementById('cfg-sheet-url').value = DEFAULT_SHEET_ID;
+            document.getElementById('cfg-wa-num').value = DEFAULT_WA;
+            toggleConfigModal(false);
+            fetchGoogleSheetData(true);
+            showToast('تمت استعادة الإعدادات الأصلية للجدول', 'info');
+        }
+
+        // Toast Messages
+        function showToast(message, type = 'info') {
+            const box = document.getElementById('toast-box');
+            const toast = document.createElement('div');
+            
+            const styles = {
+                success: 'bg-emerald-950/90 border-emerald-500/60 text-emerald-200',
+                warning: 'bg-amber-950/90 border-amber-500/60 text-amber-200',
+                error: 'bg-rose-950/90 border-rose-500/60 text-rose-200',
+                info: 'bg-cyan-950/90 border-cyan-500/60 text-cyan-200'
+            }[type] || 'bg-gray-900 border-gray-700 text-white';
+
+            toast.className = `pointer-events-auto flex items-center gap-2.5 px-4 py-3 rounded-xl border backdrop-blur-md shadow-2xl transition-all duration-300 text-xs font-bold ${styles}`;
+            toast.innerHTML = `<i class="fa-solid fa-circle-info"></i><span>${message}</span>`;
+            
+            box.appendChild(toast);
+            setTimeout(() => {
+                toast.classList.add('opacity-0', '-translate-y-2');
+                setTimeout(() => toast.remove(), 300);
+            }, 3500);
+        }
+    </script>
+</body>
+</html>
