@@ -1,83 +1,3 @@
-
-محادثة مع Gemini
-edit this when you are ready
-
-جاهز تماماً! تم استلام كود صفحة المتجر (Good Store).
-
-ما هي التعديلات أو الميزات التي ترغب في إضافتها أو تعديلها؟ على سبيل المثال:
-
-التصميم والواجهة (UI/UX): تغيير الألوان، تحسين طريقة عرض البطاقات، تعديل الهيدر، أو جعل واجهة الهواتف أكثر سلاسة.
-
-الربط مع Google Sheets: تعديل أسماء الأعمدة، معالجة الصور ومصادرها (Google Drive / Direct Links)، أو تحسين آلية التحديث والمزامنة التلقائية.
-
-نظام الطلب والسلة: إضافة حقول لتفاصيل العميل (الاسم، المدينة، العنوان، الملاحظات) قبل إرسال رسالة الواتساب.
-
-الفلترة والتصنيفات: إضافة فلاتر نطاق الأسعار، أو البحث حسب الذاكرة/المواصفات، أو تحسين تصنيفات الماركات.
-
-ميزات إضافية: مشاركة رابط المنتج، حفظ المفضلة (Wishlist)، أو وضع عدم الاتصال (Offline mode).
-
-أخبرني بالمطلوب وسأقوم بتعديل وتجهيز الكود فوراً!
-
-اضف النقطه ٣ و٤ .
-
-بالاضافه الي ذلك اضف :
-
-١. احذف الاعدادات واترك الاعدادت في الكود فقط ربط قوقل شيت ورقم الواتسب واترك الموجودات الان في الكود فقط .
-
-غير اسم المتجر الي GoodLine Store
-
-تم تنفيذ وتطبيق جميع التعديلات المطلوبة بدقة:
-
-رمز HTML
-index
- HTML 
-ملخص التعديلات والإضافات:
-تغيير اسم المتجر:
-
-تم تحديث الاسم إلى GoodLine Store في الهيدر، العنوان (<title>)، والرسائل الصادرة عبر واتساب.
-
-حذف نافذة الإعدادات وزر الترس:
-
-تم حذف زر الإعدادات والنافذة المنبثقة من الواجهة لتكون الواجهة بسيطة وخاصة بالعميل فقط.
-
-تم تثبيت رابط/معرف قوقل شيت ورقم الواتساب كثوابت واضحة في كود الجافاسكربت:
-
-JavaScript
-const STORE_NAME = "GoodLine Store";
-const GOOGLE_SHEET_ID = "1nMIJMA4YmQ-oi2UaUJBwloBjf14BwqroWxR8Fv-RiFY";
-const GOOGLE_SHEET_TAB_NAME = "Sheet1";
-const STORE_WHATSAPP_NUMBER = "201034959203"; // رقم الواتساب المعتمد
-النقطة ٣ (نظام الطلب وبيانات العميل في السلة):
-
-تم إضافة استمارة مخصصة داخل درج السلة (Cart Drawer) قبل إتمام الطلب تطلب من العميل:
-
-اسم العميل بالكامل (إجباري).
-
-المدينة / الولاية (إجباري).
-
-العنوان بالتفصيل / مكان التسليم (إجباري).
-
-رقم هاتف بديل (اختياري).
-
-ملاحظات إضافية (اللون المفضل، وقت الاستلام، إلخ).
-
-يتم تجميع كافة هذه البيانات تلقائياً وتنسيقها بشكل جميل ومنظم في رسالة الواتساب مع قائمة الأجهزة والمجموع الكلي، كما يتم حفظها في المتصفح لتسهيل طلبات العميل المستقبلية.
-
-النقطة ٤ (الفلترة والبحث المتقدم):
-
-فلتر نطاق الأسعار (Price Range): حقول لتحديد السعر (من - إلى) لتصفية الهواتف حسب ميزانية العميل.
-
-فلتر سعة التخزين والذاكرة: أزرار سريعة لتصفية الأجهزة حسب السعة (128GB, 256GB, 512GB).
-
-توسيع تصنيفات الماركات: إضافة خيارات إضافية تشمل Tecno / Infinix إلى جانب Honor, Samsung, Apple, Xiaomi, Nokia.
-
-بحث ذكي متكامل: يبحث بالاسم والمواصفات والموديل بالتزامن مع باقي الفلاتر.
-
-full code
-
-إليك الكود الكامل لملف index.html بعد تطبيق كافة التعديلات (تغيير الاسم إلى GoodLine Store، إضافة نموذج بيانات العميل للسلة [النقطة 3]، إضافة الفلاتر المتقدمة والبحث حسب السعر والذاكرة [النقطة 4]، وحذف واجهة الإعدادات مع إبقاء الإعدادات ثابتة داخل الكود):
-
-HTML
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -129,11 +49,6 @@ HTML
             -ms-overflow-style: none;
             scrollbar-width: none;
         }
-        input[type="number"]::-webkit-inner-spin-button,
-        input[type="number"]::-webkit-outer-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-        }
     </style>
 </head>
 <body class="min-h-screen flex flex-col selection:bg-cyanbrand selection:text-white pb-16">
@@ -153,7 +68,7 @@ HTML
                     <span class="text-xl font-black tracking-tight text-white flex items-center gap-1">
                         GoodLine<span class="text-cyan-400">Store</span>
                     </span>
-                    <p class="text-[10px] text-gray-400 font-medium leading-none">أحدث الهواتف والأجهزة الذكية</p>
+                    <p class="text-[10px] text-gray-400 font-medium leading-none">أحدث الأجهزة الذكية</p>
                 </div>
             </div>
 
@@ -162,6 +77,11 @@ HTML
                 <!-- Sync / Refresh Button -->
                 <button onclick="fetchGoogleSheetData(true)" id="refresh-data-btn" title="تحديث القائمة" class="w-10 h-10 rounded-xl bg-cardbg border border-cardborder text-gray-300 hover:text-white flex items-center justify-center transition-all active:scale-95">
                     <i class="fa-solid fa-rotate text-sm"></i>
+                </button>
+
+                <!-- Settings / Config -->
+                <button onclick="toggleConfigModal(true)" title="إعدادات الربط" class="w-10 h-10 rounded-xl bg-cardbg border border-cardborder text-gray-300 hover:text-white flex items-center justify-center transition-all active:scale-95">
+                    <i class="fa-solid fa-gear text-sm"></i>
                 </button>
 
                 <!-- Cart Button -->
@@ -187,235 +107,48 @@ HTML
                 أحدث الهواتف الذكية مع <span class="text-cyan-400">ضمان وأفضل الأسعار</span>
             </h1>
             <p class="text-gray-300 text-xs sm:text-sm max-w-2xl leading-relaxed mb-4">
-                استكشف قائمة الهواتف الذكية المحدثة يومياً مع المواصفات الدقيقة، وخيارات البحث المتقدم والتصفية، والطلب المباشر السريع عبر واتساب.
+                استكشف قائمة الهواتف الذكية المحدثة يومياً مع الصور الرسمية، المواصفات الدقيقة، والطلب الفوري المباشر عبر تطبيق واتساب بخطوة واحدة.
             </p>
             <div class="flex flex-wrap gap-4 text-[11px] sm:text-xs text-gray-400">
                 <span class="flex items-center gap-1.5"><i class="fa-solid fa-bolt text-amber-400"></i> أسعار يومية منافسة</span>
                 <span class="flex items-center gap-1.5"><i class="fa-solid fa-shield-halved text-emerald-400"></i> أجهزة أصلية معتمدة</span>
-                <span class="flex items-center gap-1.5"><i class="fa-brands fa-whatsapp text-green-400"></i> طلب مباشر وسريع</span>
+                <span class="flex items-center gap-1.5"><i class="fa-brands fa-whatsapp text-green-400"></i> طلب مباشر</span>
             </div>
         </div>
 
-        <!-- Filter & Search Controls (النقطة 4: توسيع الفلترة والبحث المتقدم) -->
-        <div class="space-y-3 mb-6 bg-cardbg/70 p-4 rounded-2xl border border-cardborder glass-card">
+        <!-- Filter & Search Bar -->
+        <div class="space-y-3 mb-6">
             <!-- Search Input -->
             <div class="relative">
                 <i class="fa-solid fa-magnifying-glass absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
-                <input type="text" id="search-input" oninput="applyFilters()" placeholder="ابحث باسم الجهاز، الموديل أو المواصفات (مثال: Galaxy S24, Honor, 256GB, 8GB...)" class="w-full pr-10 pl-4 py-3 rounded-xl bg-gray-900 border border-cardborder text-white text-xs sm:text-sm placeholder-gray-500 focus:outline-none focus:border-cyan-500 transition-all">
+                <input type="text" id="search-input" oninput="applyFilters()" placeholder="ابحث باسم الجهاز (مثال: Galaxy S24, Honor, iPhone...)" class="w-full pr-10 pl-4 py-3 rounded-xl bg-cardbg border border-cardborder text-white text-xs sm:text-sm placeholder-gray-500 focus:outline-none focus:border-cyan-500 transition-all">
             </div>
 
             <!-- Brands Filter Tabs -->
             <div class="flex items-center gap-1.5 overflow-x-auto pb-1 hide-scrollbar text-xs font-bold" id="brand-buttons-row">
                 <button onclick="setBrandFilter('all')" class="brand-btn px-4 py-2 rounded-xl bg-cyan-500 text-white whitespace-nowrap transition-all shadow-md shadow-cyan-500/20" data-brand="all">الكل</button>
-                <button onclick="setBrandFilter('honor')" class="brand-btn px-4 py-2 rounded-xl bg-gray-900 text-gray-400 border border-cardborder hover:text-white whitespace-nowrap transition-all" data-brand="honor">Honor</button>
-                <button onclick="setBrandFilter('samsung')" class="brand-btn px-4 py-2 rounded-xl bg-gray-900 text-gray-400 border border-cardborder hover:text-white whitespace-nowrap transition-all" data-brand="samsung">Samsung</button>
-                <button onclick="setBrandFilter('apple')" class="brand-btn px-4 py-2 rounded-xl bg-gray-900 text-gray-400 border border-cardborder hover:text-white whitespace-nowrap transition-all" data-brand="apple">Apple</button>
-                <button onclick="setBrandFilter('xiaomi')" class="brand-btn px-4 py-2 rounded-xl bg-gray-900 text-gray-400 border border-cardborder hover:text-white whitespace-nowrap transition-all" data-brand="xiaomi">Xiaomi / Poco</button>
-                <button onclick="setBrandFilter('tecno')" class="brand-btn px-4 py-2 rounded-xl bg-gray-900 text-gray-400 border border-cardborder hover:text-white whitespace-nowrap transition-all" data-brand="tecno">Tecno / Infinix</button>
-                <button onclick="setBrandFilter('nokia')" class="brand-btn px-4 py-2 rounded-xl bg-gray-900 text-gray-400 border border-cardborder hover:text-white whitespace-nowrap transition-all" data-brand="nokia">Nokia</button>
-                <button onclick="setBrandFilter('other')" class="brand-btn px-4 py-2 rounded-xl bg-gray-900 text-gray-400 border border-cardborder hover:text-white whitespace-nowrap transition-all" data-brand="other">أخرى</button>
+                <button onclick="setBrandFilter('honor')" class="brand-btn px-4 py-2 rounded-xl bg-cardbg text-gray-400 border border-cardborder hover:text-white whitespace-nowrap transition-all" data-brand="honor">Honor</button>
+                <button onclick="setBrandFilter('samsung')" class="brand-btn px-4 py-2 rounded-xl bg-cardbg text-gray-400 border border-cardborder hover:text-white whitespace-nowrap transition-all" data-brand="samsung">Samsung</button>
+                <button onclick="setBrandFilter('apple')" class="brand-btn px-4 py-2 rounded-xl bg-cardbg text-gray-400 border border-cardborder hover:text-white whitespace-nowrap transition-all" data-brand="apple">Apple</button>
+                <button onclick="setBrandFilter('xiaomi')" class="brand-btn px-4 py-2 rounded-xl bg-cardbg text-gray-400 border border-cardborder hover:text-white whitespace-nowrap transition-all" data-brand="xiaomi">Xiaomi</button>
+                <button onclick="setBrandFilter('nokia')" class="brand-btn px-4 py-2 rounded-xl bg-cardbg text-gray-400 border border-cardborder hover:text-white whitespace-nowrap transition-all" data-brand="nokia">Nokia</button>
+                <button onclick="setBrandFilter('other')" class="brand-btn px-4 py-2 rounded-xl bg-cardbg text-gray-400 border border-cardborder hover:text-white whitespace-nowrap transition-all" data-brand="other">أخرى</button>
             </div>
 
-            <!-- Advanced Filters Row: Price Range & Memory Chips & Sorting -->
-            <div class="grid grid-cols-1 md:grid-cols-12 gap-3 pt-2 border-t border-cardborder/80">
-                <!-- Price Range Filter -->
-                <div class="md:col-span-5 flex items-center gap-2">
-                    <span class="text-xs text-gray-400 whitespace-nowrap"><i class="fa-solid fa-coins text-cyan-400 mr-1"></i> السعر:</span>
-                    <input type="number" id="min-price-input" oninput="applyFilters()" placeholder="من" class="w-1/2 px-2.5 py-1.5 rounded-lg bg-gray-900 border border-cardborder text-xs text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500">
-                    <span class="text-gray-500 text-xs">-</span>
-                    <input type="number" id="max-price-input" oninput="applyFilters()" placeholder="إلى" class="w-1/2 px-2.5 py-1.5 rounded-lg bg-gray-900 border border-cardborder text-xs text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500">
-                </div>
-
-                <!-- Storage / Spec Filter Quick Badges -->
-                <div class="md:col-span-4 flex items-center gap-1.5 overflow-x-auto hide-scrollbar text-[11px]">
-                    <span class="text-gray-400 whitespace-nowrap"><i class="fa-solid fa-hard-drive text-cyan-400 mr-1"></i> الذاكرة:</span>
-                    <button type="button" onclick="setStorageFilter('')" class="storage-btn px-2.5 py-1 rounded-lg bg-cyan-600/30 text-cyan-300 border border-cyan-500/40" data-storage="">الكل</button>
-                    <button type="button" onclick="setStorageFilter('128')" class="storage-btn px-2.5 py-1 rounded-lg bg-gray-900 text-gray-400 border border-cardborder hover:text-white" data-storage="128">128G</button>
-                    <button type="button" onclick="setStorageFilter('256')" class="storage-btn px-2.5 py-1 rounded-lg bg-gray-900 text-gray-400 border border-cardborder hover:text-white" data-storage="256">256G</button>
-                    <button type="button" onclick="setStorageFilter('512')" class="storage-btn px-2.5 py-1 rounded-lg bg-gray-900 text-gray-400 border border-cardborder hover:text-white" data-storage="512">512G</button
-
-
-
-
-‫Gemini هو نموذج ذكاء اصطناعي وقد يعرض معلومات خاطئة.
-
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GoodLine Store | متجر الأجهزة الذكية</title>
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Cairo Font & FontAwesome Icons -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        darkbg: '#080d1a',
-                        cardbg: '#0f172a',
-                        cardborder: '#1e293b',
-                        cyanbrand: '#06b6d4',
-                        emeraldbrand: '#10b981'
-                    },
-                    fontFamily: {
-                        cairo: ['Cairo', 'sans-serif']
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        body {
-            font-family: 'Cairo', sans-serif;
-            background-color: #080d1a;
-            color: #f1f5f9;
-            -webkit-tap-highlight-color: transparent;
-        }
-        .glass-card {
-            background: linear-gradient(145deg, rgba(17, 24, 39, 0.95), rgba(15, 23, 42, 0.9));
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(12px);
-        }
-        .hide-scrollbar::-webkit-scrollbar {
-            display: none;
-        }
-        .hide-scrollbar {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
-        input[type="number"]::-webkit-inner-spin-button,
-        input[type="number"]::-webkit-outer-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-        }
-    </style>
-</head>
-<body class="min-h-screen flex flex-col selection:bg-cyanbrand selection:text-white pb-16">
-
-    <!-- Toast Notifications Container -->
-    <div id="toast-box" class="fixed top-4 left-4 right-4 sm:right-auto sm:w-96 z-50 flex flex-col gap-2 pointer-events-none"></div>
-
-    <!-- Header Navigation -->
-    <header class="sticky top-0 z-40 bg-[#080d1ae6] backdrop-blur-md border-b border-cardborder px-4 py-3">
-        <div class="max-w-7xl mx-auto flex items-center justify-between gap-3">
-            <!-- Brand -->
-            <div class="flex items-center gap-2.5 cursor-pointer" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-600 to-sky-400 flex items-center justify-center text-white shadow-lg shadow-cyan-500/20">
-                    <i class="fa-solid fa-mobile-screen-button text-lg"></i>
-                </div>
-                <div>
-                    <span class="text-xl font-black tracking-tight text-white flex items-center gap-1">
-                        GoodLine<span class="text-cyan-400">Store</span>
-                    </span>
-                    <p class="text-[10px] text-gray-400 font-medium leading-none">أحدث الهواتف والأجهزة الذكية</p>
-                </div>
-            </div>
-
-            <!-- Header Controls -->
-            <div class="flex items-center gap-2">
-                <!-- Sync / Refresh Button -->
-                <button onclick="fetchGoogleSheetData(true)" id="refresh-data-btn" title="تحديث القائمة" class="w-10 h-10 rounded-xl bg-cardbg border border-cardborder text-gray-300 hover:text-white flex items-center justify-center transition-all active:scale-95">
-                    <i class="fa-solid fa-rotate text-sm"></i>
-                </button>
-
-                <!-- Cart Button -->
-                <button onclick="toggleCartDrawer(true)" class="h-10 px-3.5 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white font-bold flex items-center gap-2 shadow-lg shadow-cyan-600/20 transition-all active:scale-95 text-xs">
-                    <i class="fa-solid fa-bag-shopping text-sm"></i>
-                    <span class="hidden sm:inline">السلة</span>
-                    <span id="cart-counter" class="w-5 h-5 rounded-full bg-amber-400 text-gray-900 font-black text-[11px] flex items-center justify-center">0</span>
-                </button>
-            </div>
-        </div>
-    </header>
-
-    <!-- Main Store Container -->
-    <main class="flex-grow max-w-7xl mx-auto px-4 w-full pt-4">
-
-        <!-- Hero Notification Banner -->
-        <div class="relative rounded-2xl overflow-hidden glass-card p-5 sm:p-7 mb-6 border border-cardborder">
-            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-950/80 border border-cyan-800/60 text-cyan-400 text-xs font-bold mb-3">
-                <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
-                تحديث لحظي لأسعار الأجهزة والهواتف
-            </div>
-            <h1 class="text-2xl sm:text-4xl font-black text-white leading-tight mb-2">
-                أحدث الهواتف الذكية مع <span class="text-cyan-400">ضمان وأفضل الأسعار</span>
-            </h1>
-            <p class="text-gray-300 text-xs sm:text-sm max-w-2xl leading-relaxed mb-4">
-                استكشف قائمة الهواتف الذكية المحدثة يومياً مع المواصفات الدقيقة، وخيارات البحث المتقدم والتصفية، والطلب المباشر السريع عبر واتساب.
-            </p>
-            <div class="flex flex-wrap gap-4 text-[11px] sm:text-xs text-gray-400">
-                <span class="flex items-center gap-1.5"><i class="fa-solid fa-bolt text-amber-400"></i> أسعار يومية منافسة</span>
-                <span class="flex items-center gap-1.5"><i class="fa-solid fa-shield-halved text-emerald-400"></i> أجهزة أصلية معتمدة</span>
-                <span class="flex items-center gap-1.5"><i class="fa-brands fa-whatsapp text-green-400"></i> طلب مباشر وسريع</span>
-            </div>
-        </div>
-
-        <!-- Filter & Search Controls (النقطة 4: توسيع الفلترة والبحث المتقدم) -->
-        <div class="space-y-3 mb-6 bg-cardbg/70 p-4 rounded-2xl border border-cardborder glass-card">
-            <!-- Search Input -->
-            <div class="relative">
-                <i class="fa-solid fa-magnifying-glass absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
-                <input type="text" id="search-input" oninput="applyFilters()" placeholder="ابحث باسم الجهاز، الموديل أو المواصفات (مثال: Galaxy S24, Honor, 256GB, 8GB...)" class="w-full pr-10 pl-4 py-3 rounded-xl bg-gray-900 border border-cardborder text-white text-xs sm:text-sm placeholder-gray-500 focus:outline-none focus:border-cyan-500 transition-all">
-            </div>
-
-            <!-- Brands Filter Tabs -->
-            <div class="flex items-center gap-1.5 overflow-x-auto pb-1 hide-scrollbar text-xs font-bold" id="brand-buttons-row">
-                <button onclick="setBrandFilter('all')" class="brand-btn px-4 py-2 rounded-xl bg-cyan-500 text-white whitespace-nowrap transition-all shadow-md shadow-cyan-500/20" data-brand="all">الكل</button>
-                <button onclick="setBrandFilter('honor')" class="brand-btn px-4 py-2 rounded-xl bg-gray-900 text-gray-400 border border-cardborder hover:text-white whitespace-nowrap transition-all" data-brand="honor">Honor</button>
-                <button onclick="setBrandFilter('samsung')" class="brand-btn px-4 py-2 rounded-xl bg-gray-900 text-gray-400 border border-cardborder hover:text-white whitespace-nowrap transition-all" data-brand="samsung">Samsung</button>
-                <button onclick="setBrandFilter('apple')" class="brand-btn px-4 py-2 rounded-xl bg-gray-900 text-gray-400 border border-cardborder hover:text-white whitespace-nowrap transition-all" data-brand="apple">Apple</button>
-                <button onclick="setBrandFilter('xiaomi')" class="brand-btn px-4 py-2 rounded-xl bg-gray-900 text-gray-400 border border-cardborder hover:text-white whitespace-nowrap transition-all" data-brand="xiaomi">Xiaomi / Poco</button>
-                <button onclick="setBrandFilter('tecno')" class="brand-btn px-4 py-2 rounded-xl bg-gray-900 text-gray-400 border border-cardborder hover:text-white whitespace-nowrap transition-all" data-brand="tecno">Tecno / Infinix</button>
-                <button onclick="setBrandFilter('nokia')" class="brand-btn px-4 py-2 rounded-xl bg-gray-900 text-gray-400 border border-cardborder hover:text-white whitespace-nowrap transition-all" data-brand="nokia">Nokia</button>
-                <button onclick="setBrandFilter('other')" class="brand-btn px-4 py-2 rounded-xl bg-gray-900 text-gray-400 border border-cardborder hover:text-white whitespace-nowrap transition-all" data-brand="other">أخرى</button>
-            </div>
-
-            <!-- Advanced Filters Row: Price Range & Memory Chips & Sorting -->
-            <div class="grid grid-cols-1 md:grid-cols-12 gap-3 pt-2 border-t border-cardborder/80">
-                <!-- Price Range Filter -->
-                <div class="md:col-span-5 flex items-center gap-2">
-                    <span class="text-xs text-gray-400 whitespace-nowrap"><i class="fa-solid fa-coins text-cyan-400 mr-1"></i> السعر:</span>
-                    <input type="number" id="min-price-input" oninput="applyFilters()" placeholder="من" class="w-1/2 px-2.5 py-1.5 rounded-lg bg-gray-900 border border-cardborder text-xs text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500">
-                    <span class="text-gray-500 text-xs">-</span>
-                    <input type="number" id="max-price-input" oninput="applyFilters()" placeholder="إلى" class="w-1/2 px-2.5 py-1.5 rounded-lg bg-gray-900 border border-cardborder text-xs text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500">
-                </div>
-
-                <!-- Storage / Spec Filter Quick Badges -->
-                <div class="md:col-span-4 flex items-center gap-1.5 overflow-x-auto hide-scrollbar text-[11px]">
-                    <span class="text-gray-400 whitespace-nowrap"><i class="fa-solid fa-hard-drive text-cyan-400 mr-1"></i> الذاكرة:</span>
-                    <button type="button" onclick="setStorageFilter('')" class="storage-btn px-2.5 py-1 rounded-lg bg-cyan-600/30 text-cyan-300 border border-cyan-500/40" data-storage="">الكل</button>
-                    <button type="button" onclick="setStorageFilter('128')" class="storage-btn px-2.5 py-1 rounded-lg bg-gray-900 text-gray-400 border border-cardborder hover:text-white" data-storage="128">128G</button>
-                    <button type="button" onclick="setStorageFilter('256')" class="storage-btn px-2.5 py-1 rounded-lg bg-gray-900 text-gray-400 border border-cardborder hover:text-white" data-storage="256">256G</button>
-                    <button type="button" onclick="setStorageFilter('512')" class="storage-btn px-2.5 py-1 rounded-lg bg-gray-900 text-gray-400 border border-cardborder hover:text-white" data-storage="512">512G</button>
-                </div>
-
-                <!-- Sort Mode -->
-                <div class="md:col-span-3 flex items-center justify-end gap-2">
-                    <select id="sort-select" onchange="applyFilters()" class="w-full bg-gray-900 border border-cardborder rounded-lg px-2.5 py-1.5 text-xs text-gray-300 focus:outline-none focus:border-cyan-500 cursor-pointer">
-                        <option value="default">الترتيب: الافتراضي</option>
-                        <option value="price-asc">السعر: الأقل أولاً</option>
-                        <option value="price-desc">السعر: الأعلى أولاً</option>
-                        <option value="name">الاسم: أبجدياً</option>
-                    </select>
-                </div>
-            </div>
-
-            <!-- Stats & Reset Row -->
+            <!-- Sorting & Counter Row -->
             <div class="flex items-center justify-between text-xs text-gray-400 pt-1">
                 <div>
                     المعروض: <span id="items-count-badge" class="text-white font-bold">0</span> أجهزة
                     <span id="sync-status-indicator" class="mr-2 text-[11px] text-cyan-400"></span>
                 </div>
-                <button onclick="resetFilters()" class="text-xs text-gray-400 hover:text-cyan-400 flex items-center gap-1 transition-colors">
-                    <i class="fa-solid fa-arrows-rotate text-[10px]"></i> تفريغ الفلاتر
-                </button>
+                <div class="relative">
+                    <select id="sort-select" onchange="applyFilters()" class="bg-cardbg border border-cardborder rounded-lg px-2.5 py-1.5 text-xs text-gray-300 focus:outline-none focus:border-cyan-500 cursor-pointer">
+                        <option value="default">الترتيب: الافتراضي</option>
+                        <option value="price-asc">السعر: من الأقل للأعلى</option>
+                        <option value="price-desc">السعر: من الأعلى للأقل</option>
+                        <option value="name">الاسم: أبجدياً</option>
+                    </select>
+                </div>
             </div>
         </div>
 
@@ -427,8 +160,8 @@ HTML
         <!-- Fallback Empty State -->
         <div id="no-results-box" class="hidden flex-col items-center justify-center p-12 text-center rounded-2xl glass-card border border-cardborder mt-4">
             <i class="fa-solid fa-mobile-screen-button text-4xl text-gray-600 mb-3"></i>
-            <h3 class="text-base font-bold text-white mb-1">لا توجد أجهزة مطابقة للبحث أو الفلترة</h3>
-            <p class="text-xs text-gray-400 mb-4">جرّب تغيير خيارات البحث، إزالة فلتر السعر أو إعادة ضبط البحث</p>
+            <h3 class="text-base font-bold text-white mb-1">لا توجد أجهزة مطابقة للبحث</h3>
+            <p class="text-xs text-gray-400 mb-4">جرّب تغيير خيارات البحث أو الفلترة أو إعادة تحميل القائمة</p>
             <button onclick="resetFilters()" class="px-4 py-2 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white font-bold text-xs">إعادة ضبط البحث</button>
         </div>
     </main>
@@ -472,65 +205,22 @@ HTML
         </div>
     </div>
 
-    <!-- ================= Shopping Cart Drawer (النقطة 3: إدخال بيانات العميل قبل الطلب) ================= -->
+    <!-- ================= Shopping Cart Drawer ================= -->
     <div id="cart-drawer-overlay" onclick="toggleCartDrawer(false)" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden transition-opacity"></div>
-    <div id="cart-drawer" class="fixed top-0 left-0 bottom-0 z-50 w-full max-w-md bg-cardbg border-r border-cardborder flex flex-col justify-between shadow-2xl transition-transform duration-300 -translate-x-full">
+    <div id="cart-drawer" class="fixed top-0 left-0 bottom-0 z-50 w-full max-w-sm bg-cardbg border-r border-cardborder flex flex-col justify-between shadow-2xl transition-transform duration-300 -translate-x-full">
         <div class="p-4 border-b border-cardborder flex items-center justify-between">
             <div class="flex items-center gap-2">
                 <i class="fa-solid fa-bag-shopping text-cyan-400"></i>
-                <h3 class="text-sm font-bold text-white">سلة المشتريات والطلب</h3>
+                <h3 class="text-sm font-bold text-white">سلة المشتريات</h3>
                 <span id="cart-header-count" class="px-2 py-0.5 rounded-full bg-gray-800 text-[11px] text-gray-300 font-bold">0</span>
             </div>
             <button onclick="toggleCartDrawer(false)" class="p-2 text-gray-400 hover:text-white">
                 <i class="fa-solid fa-xmark text-sm"></i>
             </button>
         </div>
-
-        <!-- Scrollable Section: Cart items + Customer Information Form -->
-        <div class="flex-grow overflow-y-auto p-4 space-y-4">
-            <!-- Items list -->
-            <div>
-                <h4 class="text-xs font-bold text-gray-300 mb-2 flex items-center gap-1.5">
-                    <i class="fa-solid fa-list-check text-cyan-400"></i> الأجهزة المختارة:
-                </h4>
-                <div id="cart-list" class="space-y-2.5">
-                    <!-- Items rendered via JS -->
-                </div>
-            </div>
-
-            <!-- Customer Details Form (النقطة 3) -->
-            <div id="checkout-customer-section" class="bg-gray-900/80 p-3.5 rounded-xl border border-cardborder space-y-3">
-                <h4 class="text-xs font-bold text-white flex items-center gap-1.5 border-b border-cardborder pb-2">
-                    <i class="fa-solid fa-user-pen text-cyan-400"></i> بيانات المستلم والتوصيل:
-                </h4>
-                <div class="space-y-2.5 text-xs">
-                    <div>
-                        <label class="block text-gray-400 mb-1">اسم العميل بالكامل <span class="text-rose-400">*</span></label>
-                        <input type="text" id="cust-name" placeholder="أدخل اسمك الكريم" class="w-full px-3 py-2 rounded-lg bg-cardbg border border-cardborder text-white text-xs placeholder-gray-600 focus:outline-none focus:border-cyan-500">
-                    </div>
-                    <div class="grid grid-cols-2 gap-2">
-                        <div>
-                            <label class="block text-gray-400 mb-1">المدينة / الولاية <span class="text-rose-400">*</span></label>
-                            <input type="text" id="cust-city" placeholder="مثال: الخرطوم، بورتسودان..." class="w-full px-3 py-2 rounded-lg bg-cardbg border border-cardborder text-white text-xs placeholder-gray-600 focus:outline-none focus:border-cyan-500">
-                        </div>
-                        <div>
-                            <label class="block text-gray-400 mb-1">رقم الهاتف البديل</label>
-                            <input type="tel" id="cust-phone2" placeholder="اختياري للتواصل" class="w-full px-3 py-2 rounded-lg bg-cardbg border border-cardborder text-white text-xs placeholder-gray-600 focus:outline-none focus:border-cyan-500">
-                        </div>
-                    </div>
-                    <div>
-                        <label class="block text-gray-400 mb-1">العنوان بالتفصيل / مكان التسليم <span class="text-rose-400">*</span></label>
-                        <input type="text" id="cust-address" placeholder="الحي، الشارع، أو أقرب معلم بارز" class="w-full px-3 py-2 rounded-lg bg-cardbg border border-cardborder text-white text-xs placeholder-gray-600 focus:outline-none focus:border-cyan-500">
-                    </div>
-                    <div>
-                        <label class="block text-gray-400 mb-1">ملاحظات إضافية على الطلب</label>
-                        <textarea id="cust-notes" rows="2" placeholder="لون مفضل، استفسار، وقت مناسب للتوصيل..." class="w-full px-3 py-2 rounded-lg bg-cardbg border border-cardborder text-white text-xs placeholder-gray-600 focus:outline-none focus:border-cyan-500 resize-none"></textarea>
-                    </div>
-                </div>
-            </div>
+        <div id="cart-list" class="flex-grow overflow-y-auto p-3 space-y-2.5">
+            <!-- Items rendered via JS -->
         </div>
-
-        <!-- Drawer Footer Checkout -->
         <div class="p-4 border-t border-cardborder bg-[#080d1a]">
             <div class="flex items-center justify-between mb-3 text-xs">
                 <span class="text-gray-400 font-medium">المجموع الكلي:</span>
@@ -538,77 +228,109 @@ HTML
                     <span id="cart-total-amount">0</span> <span class="text-xs text-gray-400 font-semibold">ج.س</span>
                 </div>
             </div>
-            <button onclick="checkoutCartWhatsApp()" class="w-full py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-lg shadow-emerald-600/30 transition-all active:scale-95">
-                <i class="fa-brands fa-whatsapp text-lg"></i> تأكيد الطلب وإرسال التفاصيل عبر واتساب
+            <button onclick="checkoutCartWhatsApp()" class="w-full py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-lg shadow-emerald-600/30 transition-all">
+                <i class="fa-brands fa-whatsapp text-lg"></i> إتمام الطلب عبر واتساب
             </button>
+        </div>
+    </div>
+
+    <!-- ================= Settings Modal ================= -->
+    <div id="config-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
+        <div class="w-full max-w-md bg-cardbg border border-cardborder rounded-2xl p-5 shadow-2xl relative">
+            <button onclick="toggleConfigModal(false)" class="absolute top-4 left-4 text-gray-400 hover:text-white">
+                <i class="fa-solid fa-xmark text-base"></i>
+            </button>
+            <h3 class="text-base font-bold text-white mb-1 flex items-center gap-2">
+                <i class="fa-solid fa-gear text-cyan-400"></i> إعدادات جدول البيانات
+            </h3>
+            <p class="text-xs text-gray-400 mb-4">تم تعيين جدول Google Sheets الخاص بك تلقائياً ورقم واتساب الطلبات.</p>
+
+            <div class="space-y-3 mb-5 text-xs">
+                <div>
+                    <label class="block font-semibold text-gray-300 mb-1">رابط أو معرف Google Sheets:</label>
+                    <input type="text" id="cfg-sheet-url" class="w-full px-3 py-2.5 rounded-xl bg-gray-900 border border-cardborder text-white text-xs placeholder-gray-600 focus:outline-none focus:border-cyan-500">
+                </div>
+                <div>
+                    <label class="block font-semibold text-gray-300 mb-1">رقم واتساب المتجر (مع مفتاح الدولة):</label>
+                    <input type="text" id="cfg-wa-num" placeholder="249123456789" class="w-full px-3 py-2.5 rounded-xl bg-gray-900 border border-cardborder text-white text-xs placeholder-gray-600 focus:outline-none focus:border-cyan-500">
+                </div>
+            </div>
+
+            <div class="flex gap-2">
+                <button onclick="saveCustomConfig()" class="flex-1 py-2.5 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white font-bold text-xs transition-colors">
+                    حفظ وتحديث المتجر
+                </button>
+                <button onclick="resetDefaultConfig()" class="px-3 py-2.5 rounded-xl bg-gray-800 text-gray-300 hover:text-white text-xs font-semibold">
+                    الافتراضي
+                </button>
+            </div>
         </div>
     </div>
 
     <!-- Application Core Script -->
     <script>
-        // ================= الإعدادات الثابتة في الكود مباشرة =================
-        const STORE_NAME = "GoodLine Store";
-        const GOOGLE_SHEET_ID = "1nMIJMA4YmQ-oi2UaUJBwloBjf14BwqroWxR8Fv-RiFY";
-        const GOOGLE_SHEET_TAB_NAME = "Sheet1";
-        const STORE_WHATSAPP_NUMBER = "249912345678"; // رقم الواتساب المعتمد للمتجر
+        // Preset default spreadsheet ID & sheet from user's provided link
+        const DEFAULT_SHEET_ID = "1nMIJMA4YmQ-oi2UaUJBwloBjf14BwqroWxR8Fv-RiFY";
+        const DEFAULT_SHEET_NAME = "Sheet1";
+        const DEFAULT_WA = "249912345678";
 
         // Store state
         let allProducts = [];
         let filteredProducts = [];
         let cart = [];
         let selectedBrand = 'all';
-        let selectedStorage = '';
         let currentModalItem = null;
+
+        // Current Config
+        let currentSheetUrl = localStorage.getItem('gs_sheet_input') || DEFAULT_SHEET_ID;
+        let storeWhatsApp = localStorage.getItem('gs_store_wa') || DEFAULT_WA;
 
         document.addEventListener('DOMContentLoaded', () => {
             // Restore cart
             try {
-                const saved = localStorage.getItem('gl_cart_state');
+                const saved = localStorage.getItem('gs_cart_state');
                 if (saved) cart = JSON.parse(saved);
             } catch (e) { cart = []; }
             updateCartBadges();
 
-            // Restore saved customer info if available
-            try {
-                const savedCust = localStorage.getItem('gl_cust_info');
-                if (savedCust) {
-                    const parsed = JSON.parse(savedCust);
-                    if (parsed.name) document.getElementById('cust-name').value = parsed.name;
-                    if (parsed.city) document.getElementById('cust-city').value = parsed.city;
-                    if (parsed.phone2) document.getElementById('cust-phone2').value = parsed.phone2;
-                    if (parsed.address) document.getElementById('cust-address').value = parsed.address;
-                }
-            } catch(e) {}
+            // Setup input defaults
+            document.getElementById('cfg-sheet-url').value = currentSheetUrl;
+            document.getElementById('cfg-wa-num').value = storeWhatsApp;
 
             // Fetch live data
             fetchGoogleSheetData(false);
         });
 
-        // Brand categorization (النقطة 4: توسيع اكتشاف الماركات)
+        // Brand categorization
         function detectBrand(name) {
             const n = (name || '').toLowerCase();
             if (n.includes('honor')) return 'honor';
             if (n.includes('samsung') || n.includes('galaxy')) return 'samsung';
             if (n.includes('apple') || n.includes('iphone') || n.includes('ipad')) return 'apple';
             if (n.includes('xiaomi') || n.includes('redmi') || n.includes('poco')) return 'xiaomi';
-            if (n.includes('tecno') || n.includes('infinix') || n.includes('itel')) return 'tecno';
             if (n.includes('nokia')) return 'nokia';
             return 'other';
         }
 
-        // Fetch Google Sheet data (GViz + CSV Fallback)
+        // Robust Fetcher with Google Viz API (CORS Bypass)
         async function fetchGoogleSheetData(manual = false) {
             const btn = document.getElementById('refresh-data-btn');
             const statusIndicator = document.getElementById('sync-status-indicator');
             btn.classList.add('animate-spin', 'text-cyan-400');
             statusIndicator.textContent = 'جاري المزامنة...';
 
-            const gvizUrl = `https://docs.google.com/spreadsheets/d/${GOOGLE_SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(GOOGLE_SHEET_TAB_NAME)}`;
-            const csvUrl = `https://docs.google.com/spreadsheets/d/${GOOGLE_SHEET_ID}/export?format=csv&sheet=${encodeURIComponent(GOOGLE_SHEET_TAB_NAME)}`;
+            let sheetId = extractSheetId(currentSheetUrl) || DEFAULT_SHEET_ID;
+
+            // Strategy 1: Google Visualization API (JSONP / Gviz text - Bypass CORS)
+            const gvizUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(DEFAULT_SHEET_NAME)}`;
+            
+            // Strategy 2: Direct CSV export
+            const csvUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv&sheet=${encodeURIComponent(DEFAULT_SHEET_NAME)}`;
 
             let fetched = false;
 
             try {
+                // Attempt JSON GViz First
                 const res = await fetch(gvizUrl);
                 if (res.ok) {
                     const text = await res.text();
@@ -625,9 +347,10 @@ HTML
                     }
                 }
             } catch (err) {
-                console.warn('GViz fetch attempt failed, trying CSV fallback...', err);
+                console.warn('Gviz fetch attempt failed, trying CSV fallback...', err);
             }
 
+            // Fallback to CSV if GViz fails
             if (!fetched) {
                 try {
                     const csvRes = await fetch(csvUrl);
@@ -647,11 +370,11 @@ HTML
             btn.classList.remove('animate-spin', 'text-cyan-400');
 
             if (fetched) {
-                statusIndicator.textContent = 'متصل ومحدث ✓';
+                statusIndicator.textContent = 'متصل بـ Google Sheets ✓';
                 if (manual) showToast('تم تحديث قائمة الهواتف من الشيت بنجاح', 'success');
             } else {
-                statusIndicator.textContent = 'وضع البيانات المخزنة';
-                const cached = localStorage.getItem('gl_cached_products');
+                statusIndicator.textContent = 'وضع البيانات المحفوظة';
+                const cached = localStorage.getItem('gs_cached_products');
                 if (cached) {
                     try {
                         allProducts = JSON.parse(cached);
@@ -659,18 +382,27 @@ HTML
                     } catch(e) {}
                 }
                 if (manual) {
-                    showToast('تأكد من إمكانية الوصول إلى جدول البيانات أو اتصال الإنترنت', 'warning');
+                    showToast('تأكد من فتح مشاركة الشيت: (أي شخص لديه الرابط يمكنه العرض)', 'warning');
                 }
             }
         }
 
+        // Extract ID from full URL or return ID directly
+        function extractSheetId(input) {
+            if (!input) return DEFAULT_SHEET_ID;
+            const match = input.match(/\/d\/([a-zA-Z0-9-_]+)/);
+            return match ? match[1] : input.trim();
+        }
+
+        // Parse Google Viz DataTable Object
         function parseGvizJson(json) {
             if (!json || !json.table || !json.table.rows) return [];
             const cols = (json.table.cols || []).map(c => (c.label || '').trim());
             
+            // Map columns
             const nameIdx = findColIndex(cols, ['device', 'name', 'جهاز', 'اسم']);
             const priceIdx = findColIndex(cols, ['price', 'سعر']);
-            const notesIdx = findColIndex(cols, ['note', 'desc', 'ملاحظ', 'وصف', 'مواصفات']);
+            const notesIdx = findColIndex(cols, ['note', 'desc', 'ملاحظ', 'وصف']);
             const dateIdx = findColIndex(cols, ['date', 'تاريخ']);
             const imgIdx = findColIndex(cols, ['image', 'img', 'صورة', 'رابط']);
 
@@ -704,6 +436,7 @@ HTML
             return list;
         }
 
+        // Parse Standard CSV
         function parseCSVText(csv) {
             const lines = csv.split(/\r?\n/).filter(l => l.trim() !== '');
             if (lines.length < 2) return [];
@@ -727,7 +460,7 @@ HTML
             const headers = parseRow(lines[0]);
             const nameIdx = findColIndex(headers, ['device', 'name', 'جهاز', 'اسم']);
             const priceIdx = findColIndex(headers, ['price', 'سعر']);
-            const notesIdx = findColIndex(headers, ['note', 'desc', 'ملاحظ', 'وصف', 'مواصفات']);
+            const notesIdx = findColIndex(headers, ['note', 'desc', 'ملاحظ', 'وصف']);
             const dateIdx = findColIndex(headers, ['date', 'تاريخ']);
             const imgIdx = findColIndex(headers, ['image', 'img', 'صورة', 'رابط']);
 
@@ -768,6 +501,7 @@ HTML
             return isNaN(parsed) ? 0 : Math.round(parsed);
         }
 
+        // Deduplication & Order logic
         function processNewProducts(items) {
             const map = new Map();
             items.forEach(item => {
@@ -776,7 +510,7 @@ HTML
             });
 
             allProducts = Array.from(map.values()).reverse();
-            localStorage.setItem('gl_cached_products', JSON.stringify(allProducts));
+            localStorage.setItem('gs_cached_products', JSON.stringify(allProducts));
             applyFilters();
         }
 
@@ -797,6 +531,7 @@ HTML
             emptyBox.classList.remove('flex');
 
             grid.innerHTML = devices.map((d, index) => {
+                const brand = detectBrand(d["Device Name"]);
                 const imageSrc = (d.Image && d.Image.startsWith('http')) 
                     ? d.Image 
                     : `https://placehold.co/500x500/0f172a/38bdf8?text=${encodeURIComponent(d["Device Name"])}`;
@@ -815,6 +550,7 @@ HTML
                                  loading="lazy"
                                  onerror="this.onerror=null; this.src='https://placehold.co/500x500/0f172a/38bdf8?text=Phone';">
                             
+                            <!-- Overlay Price Badge -->
                             <div class="absolute bottom-2.5 px-3 py-1 rounded-xl bg-[#032b36e8] border border-cyan-600/40 text-cyan-300 font-extrabold text-xs shadow-md">
                                 ${formattedPrice} ج.س
                             </div>
@@ -827,7 +563,7 @@ HTML
                                     ${d["Device Name"]}
                                 </h3>
                                 <p class="text-[11px] text-gray-400 text-center line-clamp-2 min-h-[32px] leading-relaxed mb-3">
-                                    ${d.Notes || 'هاتف أصلي ومضمون بأفضل جودة.'}
+                                    ${d.Notes || 'هاتف ذكي ممتاز بأعلى المواصفات والضمان.'}
                                 </p>
                             </div>
 
@@ -835,7 +571,7 @@ HTML
                             <div class="space-y-1.5 pt-1">
                                 <button onclick="orderViaWhatsAppDirect('${d.id || index}')" class="w-full py-2.5 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white font-bold text-xs flex items-center justify-center gap-1.5 transition-all shadow-md shadow-cyan-600/20 active:scale-95">
                                     <i class="fa-brands fa-whatsapp text-sm"></i>
-                                    اطلب الآن
+                                    اطلب الآن عبر واتساب
                                 </button>
                                 <button onclick="addToCart('${d.id || index}')" class="w-full py-2 rounded-xl bg-gray-900 hover:bg-gray-800 text-gray-300 border border-cardborder text-[11px] font-semibold flex items-center justify-center gap-1.5 transition-all active:scale-95">
                                     <i class="fa-solid fa-cart-plus text-xs"></i>
@@ -848,36 +584,20 @@ HTML
             }).join('');
         }
 
-        // Filtering and Search (النقطة 4: فلترة متطورة بالسعر والمواصفات والماركة والاسم)
+        // Filtering and Search
         function applyFilters() {
             const query = (document.getElementById('search-input').value || '').trim().toLowerCase();
-            const minPrice = parseFloat(document.getElementById('min-price-input').value) || 0;
-            const maxPrice = parseFloat(document.getElementById('max-price-input').value) || Infinity;
             const sortMode = document.getElementById('sort-select').value;
 
             let result = allProducts.filter(item => {
                 const name = (item["Device Name"] || '').toLowerCase();
                 const notes = (item.Notes || '').toLowerCase();
-                const fullText = name + ' ' + notes;
+                const matchesText = name.includes(query) || notes.includes(query);
 
-                // Search query match
-                const matchesText = !query || fullText.includes(query);
-
-                // Brand match
                 const brand = detectBrand(item["Device Name"]);
                 const matchesBrand = (selectedBrand === 'all') || (brand === selectedBrand);
 
-                // Price range match
-                const price = item.Price || 0;
-                const matchesPrice = (price >= minPrice) && (price <= maxPrice);
-
-                // Storage match
-                let matchesStorage = true;
-                if (selectedStorage) {
-                    matchesStorage = fullText.includes(selectedStorage.toLowerCase());
-                }
-
-                return matchesText && matchesBrand && matchesPrice && matchesStorage;
+                return matchesText && matchesBrand;
             });
 
             if (sortMode === 'price-asc') {
@@ -896,25 +616,11 @@ HTML
             selectedBrand = brand;
             document.querySelectorAll('.brand-btn').forEach(btn => {
                 if (btn.getAttribute('data-brand') === brand) {
-                    btn.classList.remove('bg-gray-900', 'text-gray-400', 'border', 'border-cardborder');
+                    btn.classList.remove('bg-cardbg', 'text-gray-400', 'border', 'border-cardborder');
                     btn.classList.add('bg-cyan-500', 'text-white', 'shadow-md', 'shadow-cyan-500/20');
                 } else {
-                    btn.classList.add('bg-gray-900', 'text-gray-400', 'border', 'border-cardborder');
+                    btn.classList.add('bg-cardbg', 'text-gray-400', 'border', 'border-cardborder');
                     btn.classList.remove('bg-cyan-500', 'text-white', 'shadow-md', 'shadow-cyan-500/20');
-                }
-            });
-            applyFilters();
-        }
-
-        function setStorageFilter(storage) {
-            selectedStorage = storage;
-            document.querySelectorAll('.storage-btn').forEach(btn => {
-                if (btn.getAttribute('data-storage') === storage) {
-                    btn.classList.remove('bg-gray-900', 'text-gray-400', 'border', 'border-cardborder');
-                    btn.classList.add('bg-cyan-600/30', 'text-cyan-300', 'border-cyan-500/40');
-                } else {
-                    btn.classList.add('bg-gray-900', 'text-gray-400', 'border', 'border-cardborder');
-                    btn.classList.remove('bg-cyan-600/30', 'text-cyan-300', 'border-cyan-500/40');
                 }
             });
             applyFilters();
@@ -922,11 +628,8 @@ HTML
 
         function resetFilters() {
             document.getElementById('search-input').value = '';
-            document.getElementById('min-price-input').value = '';
-            document.getElementById('max-price-input').value = '';
             document.getElementById('sort-select').value = 'default';
             setBrandFilter('all');
-            setStorageFilter('');
         }
 
         // Quick View Modal
@@ -996,7 +699,7 @@ HTML
 
             saveCart();
             updateCartBadges();
-            showToast(`تمت إضافة ${item["Device Name"]} إلى السلة`, 'success');
+            showToast(`تمت إضافة ${item["Device Name"]} للسلة`, 'success');
         }
 
         function changeCartQty(idx, change) {
@@ -1019,7 +722,7 @@ HTML
         }
 
         function saveCart() {
-            localStorage.setItem('gl_cart_state', JSON.stringify(cart));
+            localStorage.setItem('gs_cart_state', JSON.stringify(cart));
         }
 
         function updateCartBadges() {
@@ -1037,17 +740,17 @@ HTML
 
             if (cart.length === 0) {
                 container.innerHTML = `
-                    <div class="py-8 flex flex-col items-center justify-center text-center text-gray-500">
+                    <div class="h-64 flex flex-col items-center justify-center text-center text-gray-500">
                         <i class="fa-solid fa-bag-shopping text-3xl mb-2 text-gray-700"></i>
-                        <p class="text-xs font-semibold">سلة الطلبات فارغة حالياً</p>
+                        <p class="text-xs font-semibold">سلة الطلبات فارغة</p>
                     </div>
                 `;
                 return;
             }
 
             container.innerHTML = cart.map((item, idx) => `
-                <div class="flex items-center gap-2.5 p-2.5 bg-gray-900 rounded-xl border border-cardborder">
-                    <img src="${item.Image || 'https://placehold.co/100x100/0f172a/38bdf8?text=Phone'}" class="w-12 h-12 object-contain rounded-lg bg-cardbg p-1">
+                <div class="flex items-center gap-2.5 p-2.5 bg-[#090e1c] rounded-xl border border-cardborder">
+                    <img src="${item.Image || 'https://placehold.co/100x100/0f172a/38bdf8?text=Phone'}" class="w-12 h-12 object-contain rounded-lg bg-gray-900 p-1">
                     <div class="flex-grow">
                         <h4 class="text-xs font-bold text-white line-clamp-1">${item["Device Name"]}</h4>
                         <div class="text-xs font-bold text-cyan-400 mt-0.5">${(item.Price * item.qty).toLocaleString('en-US')} ج.س</div>
@@ -1064,89 +767,71 @@ HTML
             `).join('');
         }
 
-        // Direct Device WhatsApp Order
+        // WhatsApp Direct Actions
         function orderViaWhatsAppDirect(idOrIndex) {
             const item = allProducts.find((p, idx) => p.id === idOrIndex || idx == idOrIndex);
             if (!item) return;
 
-            const phone = STORE_WHATSAPP_NUMBER.replace(/[^0-9]/g, '');
-            const msg = `السلام عليكم متجر ${STORE_NAME} 📱
-أرغب في الاستفسار والطلب لجهاز:
-
-*اسم الجهاز:* ${item["Device Name"]}
-*السعر:* ${(item.Price || 0).toLocaleString('en-US')} ج.س
-*المواصفات:* ${item.Notes || 'أصلي'}
-
-يرجى تأكيد التوفر وطريقة الاستلام والتوصيل. شكراً لك!`;
+            const phone = storeWhatsApp.replace(/[^0-9]/g, '');
+            const msg = `السلام عليكم متجر GoodLine Store 📱\nأرغب في الاستفسار والطلب لجهاز:\n\n*اسم الجهاز:* ${item["Device Name"]}\n*السعر:* ${(item.Price || 0).toLocaleString('en-US')} ج.س\n*المواصفات:* ${item.Notes || 'أصلي'}\n\nيرجى تأكيد التوفر وطريقة الاستلام والتوصيل. شكراً لك!`;
             
             window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, '_blank');
         }
 
-        // WhatsApp Checkout with Customer Details (النقطة 3)
         function checkoutCartWhatsApp() {
             if (cart.length === 0) {
-                showToast('السلة فارغة! يرجى إضافة أجهزة أولاً', 'warning');
+                showToast('السلة فارغة!', 'warning');
                 return;
             }
 
-            const name = document.getElementById('cust-name').value.trim();
-            const city = document.getElementById('cust-city').value.trim();
-            const phone2 = document.getElementById('cust-phone2').value.trim();
-            const address = document.getElementById('cust-address').value.trim();
-            const notes = document.getElementById('cust-notes').value.trim();
-
-            if (!name) {
-                showToast('يرجى إدخال اسم المستلم', 'warning');
-                document.getElementById('cust-name').focus();
-                return;
-            }
-            if (!city) {
-                showToast('يرجى إدخال المدينة / الولاية', 'warning');
-                document.getElementById('cust-city').focus();
-                return;
-            }
-            if (!address) {
-                showToast('يرجى تحديد العنوان بالتفصيل', 'warning');
-                document.getElementById('cust-address').focus();
-                return;
-            }
-
-            // Save customer info for future convenience
-            localStorage.setItem('gl_cust_info', JSON.stringify({ name, city, phone2, address }));
-
-            const phone = STORE_WHATSAPP_NUMBER.replace(/[^0-9]/g, '');
+            const phone = storeWhatsApp.replace(/[^0-9]/g, '');
             const total = cart.reduce((sum, item) => sum + (item.Price * item.qty), 0);
-            const itemsText = cart.map((item, idx) => `${idx + 1}. *${item["Device Name"]}* (الكمية: ${item.qty}) - الإجمالي: ${(item.Price * item.qty).toLocaleString('en-US')} ج.س`).join('
-');
+            const lines = cart.map((item, idx) => `${idx + 1}. *${item["Device Name"]}* (الكمية: ${item.qty}) - الإجمالي: ${(item.Price * item.qty).toLocaleString('en-US')} ج.س`).join('\n');
 
-            let msg = `السلام عليكم متجر ${STORE_NAME} 🛒
-`;
-            msg += `طلب شراء جديد:
-
-`;
-            msg += `📋 *قائمة الأجهزة:*
-${itemsText}
-
-`;
-            msg += `💰 *المجموع الإجمالي:* ${total.toLocaleString('en-US')} ج.س
-
-`;
-            msg += `👤 *بيانات العميل والتوصيل:*
-`;
-            msg += `• الاسم: ${name}
-`;
-            msg += `• المدينة / الولاية: ${city}
-`;
-            msg += `• العنوان بالتفصيل: ${address}
-`;
-            if (phone2) msg += `• هاتف إضافي: ${phone2}
-`;
-            if (notes) msg += `• ملاحظات العميل: ${notes}
-`;
-            msg += `
-يرجى تأكيد استلام الطلب وتحديد موعد التسليم.`;
-
+            const msg = `السلام عليكم متجر GoodLine Store 🛒\nأود إتمام طلب شراء للأجهزة التالية:\n\n${lines}\n\n*المجموع الإجمالي:* ${total.toLocaleString('en-US')} ج.س\n\nيرجى تأكيد استلام الطلب وتحديد موعد التسليم.`;
+            
             window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, '_blank');
+        }
+
+        // Settings Modal Handling
+        function toggleConfigModal(open) {
+            const m = document.getElementById('config-modal');
+            if (open) {
+                m.classList.remove('hidden');
+                m.classList.add('flex');
+            } else {
+                m.classList.add('hidden');
+                m.classList.remove('flex');
+            }
+        }
+
+        function saveCustomConfig() {
+            const urlInput = document.getElementById('cfg-sheet-url').value.trim();
+            const waInput = document.getElementById('cfg-wa-num').value.trim();
+
+            if (urlInput) {
+                currentSheetUrl = urlInput;
+                localStorage.setItem('gs_sheet_input', currentSheetUrl);
+            }
+            if (waInput) {
+                storeWhatsApp = waInput;
+                localStorage.setItem('gs_store_wa', storeWhatsApp);
+            }
+
+            toggleConfigModal(false);
+            fetchGoogleSheetData(true);
+        }
+
+        function resetDefaultConfig() {
+            currentSheetUrl = DEFAULT_SHEET_ID;
+            storeWhatsApp = DEFAULT_WA;
+            localStorage.removeItem('gs_sheet_input');
+            localStorage.removeItem('gs_store_wa');
+            document.getElementById('cfg-sheet-url').value = DEFAULT_SHEET_ID;
+            document.getElementById('cfg-wa-num').value = DEFAULT_WA;
+            toggleConfigModal(false);
+            fetchGoogleSheetData(true);
+            showToast('تمت استعادة الإعدادات الأصلية للجدول', 'info');
         }
 
         // Toast Messages
@@ -1173,5 +858,3 @@ ${itemsText}
     </script>
 </body>
 </html>
-index.html
-جارٍ عرض "index.html".
