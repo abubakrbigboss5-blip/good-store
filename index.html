@@ -79,11 +79,6 @@
                     <i class="fa-solid fa-rotate text-sm"></i>
                 </button>
 
-                <!-- Settings / Config -->
-                <button onclick="toggleConfigModal(true)" title="إعدادات الربط" class="w-10 h-10 rounded-xl bg-cardbg border border-cardborder text-gray-300 hover:text-white flex items-center justify-center transition-all active:scale-95">
-                    <i class="fa-solid fa-gear text-sm"></i>
-                </button>
-
                 <!-- Cart Button -->
                 <button onclick="toggleCartDrawer(true)" class="h-10 px-3.5 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white font-bold flex items-center gap-2 shadow-lg shadow-cyan-600/20 transition-all active:scale-95 text-xs">
                     <i class="fa-solid fa-bag-shopping text-sm"></i>
@@ -228,51 +223,19 @@
                     <span id="cart-total-amount">0</span> <span class="text-xs text-gray-400 font-semibold">ج.س</span>
                 </div>
             </div>
-            <button onclick="checkoutCartWhatsApp()" class="w-full py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-lg shadow-emerald-600/30 transition-all">
+            <button onclick="checkoutCartWhatsApp()" class="w-full py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-lg shadow-emerald-600/30 transition-all active:scale-95">
                 <i class="fa-brands fa-whatsapp text-lg"></i> إتمام الطلب عبر واتساب
             </button>
         </div>
     </div>
 
-    <!-- ================= Settings Modal ================= -->
-    <div id="config-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
-        <div class="w-full max-w-md bg-cardbg border border-cardborder rounded-2xl p-5 shadow-2xl relative">
-            <button onclick="toggleConfigModal(false)" class="absolute top-4 left-4 text-gray-400 hover:text-white">
-                <i class="fa-solid fa-xmark text-base"></i>
-            </button>
-            <h3 class="text-base font-bold text-white mb-1 flex items-center gap-2">
-                <i class="fa-solid fa-gear text-cyan-400"></i> إعدادات جدول البيانات
-            </h3>
-            <p class="text-xs text-gray-400 mb-4">تم تعيين جدول Google Sheets الخاص بك تلقائياً ورقم واتساب الطلبات.</p>
-
-            <div class="space-y-3 mb-5 text-xs">
-                <div>
-                    <label class="block font-semibold text-gray-300 mb-1">رابط أو معرف Google Sheets:</label>
-                    <input type="text" id="cfg-sheet-url" class="w-full px-3 py-2.5 rounded-xl bg-gray-900 border border-cardborder text-white text-xs placeholder-gray-600 focus:outline-none focus:border-cyan-500">
-                </div>
-                <div>
-                    <label class="block font-semibold text-gray-300 mb-1">رقم واتساب المتجر (مع مفتاح الدولة):</label>
-                    <input type="text" id="cfg-wa-num" placeholder="249123456789" class="w-full px-3 py-2.5 rounded-xl bg-gray-900 border border-cardborder text-white text-xs placeholder-gray-600 focus:outline-none focus:border-cyan-500">
-                </div>
-            </div>
-
-            <div class="flex gap-2">
-                <button onclick="saveCustomConfig()" class="flex-1 py-2.5 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white font-bold text-xs transition-colors">
-                    حفظ وتحديث المتجر
-                </button>
-                <button onclick="resetDefaultConfig()" class="px-3 py-2.5 rounded-xl bg-gray-800 text-gray-300 hover:text-white text-xs font-semibold">
-                    الافتراضي
-                </button>
-            </div>
-        </div>
-    </div>
-
     <!-- Application Core Script -->
     <script>
-        // Preset default spreadsheet ID & sheet from user's provided link
-        const DEFAULT_SHEET_ID = "1nMIJMA4YmQ-oi2UaUJBwloBjf14BwqroWxR8Fv-RiFY";
-        const DEFAULT_SHEET_NAME = "Sheet1";
-        const DEFAULT_WA = "249912345678";
+        // ================= الإعدادات الثابتة في الكود =================
+        const STORE_NAME = "GoodLine Store";
+        const GOOGLE_SHEET_ID = "1nMIJMA4YmQ-oi2UaUJBwloBjf14BwqroWxR8Fv-RiFY";
+        const GOOGLE_SHEET_NAME = "Sheet1";
+        const STORE_WHATSAPP_NUMBER = "249912345678"; // يمكنك تعديل رقم الواتساب هنا مباشرة عند الحاجة
 
         // Store state
         let allProducts = [];
@@ -281,21 +244,13 @@
         let selectedBrand = 'all';
         let currentModalItem = null;
 
-        // Current Config
-        let currentSheetUrl = localStorage.getItem('gs_sheet_input') || DEFAULT_SHEET_ID;
-        let storeWhatsApp = localStorage.getItem('gs_store_wa') || DEFAULT_WA;
-
         document.addEventListener('DOMContentLoaded', () => {
             // Restore cart
             try {
-                const saved = localStorage.getItem('gs_cart_state');
+                const saved = localStorage.getItem('gl_cart_state');
                 if (saved) cart = JSON.parse(saved);
             } catch (e) { cart = []; }
             updateCartBadges();
-
-            // Setup input defaults
-            document.getElementById('cfg-sheet-url').value = currentSheetUrl;
-            document.getElementById('cfg-wa-num').value = storeWhatsApp;
 
             // Fetch live data
             fetchGoogleSheetData(false);
@@ -319,13 +274,11 @@
             btn.classList.add('animate-spin', 'text-cyan-400');
             statusIndicator.textContent = 'جاري المزامنة...';
 
-            let sheetId = extractSheetId(currentSheetUrl) || DEFAULT_SHEET_ID;
-
             // Strategy 1: Google Visualization API (JSONP / Gviz text - Bypass CORS)
-            const gvizUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(DEFAULT_SHEET_NAME)}`;
+            const gvizUrl = `https://docs.google.com/spreadsheets/d/${GOOGLE_SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(GOOGLE_SHEET_NAME)}`;
             
             // Strategy 2: Direct CSV export
-            const csvUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv&sheet=${encodeURIComponent(DEFAULT_SHEET_NAME)}`;
+            const csvUrl = `https://docs.google.com/spreadsheets/d/${GOOGLE_SHEET_ID}/export?format=csv&sheet=${encodeURIComponent(GOOGLE_SHEET_NAME)}`;
 
             let fetched = false;
 
@@ -374,7 +327,7 @@
                 if (manual) showToast('تم تحديث قائمة الهواتف من الشيت بنجاح', 'success');
             } else {
                 statusIndicator.textContent = 'وضع البيانات المحفوظة';
-                const cached = localStorage.getItem('gs_cached_products');
+                const cached = localStorage.getItem('gl_cached_products');
                 if (cached) {
                     try {
                         allProducts = JSON.parse(cached);
@@ -385,13 +338,6 @@
                     showToast('تأكد من فتح مشاركة الشيت: (أي شخص لديه الرابط يمكنه العرض)', 'warning');
                 }
             }
-        }
-
-        // Extract ID from full URL or return ID directly
-        function extractSheetId(input) {
-            if (!input) return DEFAULT_SHEET_ID;
-            const match = input.match(/\/d\/([a-zA-Z0-9-_]+)/);
-            return match ? match[1] : input.trim();
         }
 
         // Parse Google Viz DataTable Object
@@ -510,7 +456,7 @@
             });
 
             allProducts = Array.from(map.values()).reverse();
-            localStorage.setItem('gs_cached_products', JSON.stringify(allProducts));
+            localStorage.setItem('gl_cached_products', JSON.stringify(allProducts));
             applyFilters();
         }
 
@@ -722,7 +668,7 @@
         }
 
         function saveCart() {
-            localStorage.setItem('gs_cart_state', JSON.stringify(cart));
+            localStorage.setItem('gl_cart_state', JSON.stringify(cart));
         }
 
         function updateCartBadges() {
@@ -772,8 +718,8 @@
             const item = allProducts.find((p, idx) => p.id === idOrIndex || idx == idOrIndex);
             if (!item) return;
 
-            const phone = storeWhatsApp.replace(/[^0-9]/g, '');
-            const msg = `السلام عليكم متجر GoodLine Store 📱\nأرغب في الاستفسار والطلب لجهاز:\n\n*اسم الجهاز:* ${item["Device Name"]}\n*السعر:* ${(item.Price || 0).toLocaleString('en-US')} ج.س\n*المواصفات:* ${item.Notes || 'أصلي'}\n\nيرجى تأكيد التوفر وطريقة الاستلام والتوصيل. شكراً لك!`;
+            const phone = STORE_WHATSAPP_NUMBER.replace(/[^0-9]/g, '');
+            const msg = `السلام عليكم متجر ${STORE_NAME} 📱\nأرغب في الاستفسار والطلب لجهاز:\n\n*اسم الجهاز:* ${item["Device Name"]}\n*السعر:* ${(item.Price || 0).toLocaleString('en-US')} ج.س\n*المواصفات:* ${item.Notes || 'أصلي'}\n\nيرجى تأكيد التوفر وطريقة الاستلام والتوصيل. شكراً لك!`;
             
             window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, '_blank');
         }
@@ -784,54 +730,13 @@
                 return;
             }
 
-            const phone = storeWhatsApp.replace(/[^0-9]/g, '');
+            const phone = STORE_WHATSAPP_NUMBER.replace(/[^0-9]/g, '');
             const total = cart.reduce((sum, item) => sum + (item.Price * item.qty), 0);
             const lines = cart.map((item, idx) => `${idx + 1}. *${item["Device Name"]}* (الكمية: ${item.qty}) - الإجمالي: ${(item.Price * item.qty).toLocaleString('en-US')} ج.س`).join('\n');
 
-            const msg = `السلام عليكم متجر GoodLine Store 🛒\nأود إتمام طلب شراء للأجهزة التالية:\n\n${lines}\n\n*المجموع الإجمالي:* ${total.toLocaleString('en-US')} ج.س\n\nيرجى تأكيد استلام الطلب وتحديد موعد التسليم.`;
+            const msg = `السلام عليكم متجر ${STORE_NAME} 🛒\nأود إتمام طلب شراء للأجهزة التالية:\n\n${lines}\n\n*المجموع الإجمالي:* ${total.toLocaleString('en-US')} ج.س\n\nيرجى تأكيد استلام الطلب وتحديد موعد التسليم.`;
             
             window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, '_blank');
-        }
-
-        // Settings Modal Handling
-        function toggleConfigModal(open) {
-            const m = document.getElementById('config-modal');
-            if (open) {
-                m.classList.remove('hidden');
-                m.classList.add('flex');
-            } else {
-                m.classList.add('hidden');
-                m.classList.remove('flex');
-            }
-        }
-
-        function saveCustomConfig() {
-            const urlInput = document.getElementById('cfg-sheet-url').value.trim();
-            const waInput = document.getElementById('cfg-wa-num').value.trim();
-
-            if (urlInput) {
-                currentSheetUrl = urlInput;
-                localStorage.setItem('gs_sheet_input', currentSheetUrl);
-            }
-            if (waInput) {
-                storeWhatsApp = waInput;
-                localStorage.setItem('gs_store_wa', storeWhatsApp);
-            }
-
-            toggleConfigModal(false);
-            fetchGoogleSheetData(true);
-        }
-
-        function resetDefaultConfig() {
-            currentSheetUrl = DEFAULT_SHEET_ID;
-            storeWhatsApp = DEFAULT_WA;
-            localStorage.removeItem('gs_sheet_input');
-            localStorage.removeItem('gs_store_wa');
-            document.getElementById('cfg-sheet-url').value = DEFAULT_SHEET_ID;
-            document.getElementById('cfg-wa-num').value = DEFAULT_WA;
-            toggleConfigModal(false);
-            fetchGoogleSheetData(true);
-            showToast('تمت استعادة الإعدادات الأصلية للجدول', 'info');
         }
 
         // Toast Messages
